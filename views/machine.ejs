@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        function Search() {
+            var DevNo = document.getElementsByName('SearchDevNo')[0].value;
+            var DevName = document.getElementsByName('SearchDevName')[0].value;
+            var Account = document.getElementsByName('SearchAccount')[0].value;
+            if (DevNo.length == 0 && DevName.length == 0 && Account.length == 0) {
+                window.location.href = "/machine";
+                return true;
+            }
+            var regex = /^([A-Z0-9])+$/;
+            if (DevNo.length != 0 && !regex.test(DevNo)) {
+                return false;
+            }
+            regex = /^([\u4e00-\u9fa5A-Za-z0-9\_\-])+$/;
+            if (DevName.length != 0 && !regex.test(DevName)) {
+                return false;
+            }
+            regex = /^([A-Za-z0-9\@\.])+$/;
+            if (Account.length != 0 && !regex.test(Account)) {
+                return false;
+            }
+            window.location.href = `/machine/search?DevNo=${DevNo}&DevName=${DevName}&Account=${Account}`;
+        }
+
+        function SearchDevNo() {
+            var DevNo = document.getElementsByName('SearchDevNo')[0].value;
+            if (DevNo.length == 0) {
+                window.location.href = "/machine";
+                return true;
+            }
+            var regex = /^([A-Z0-9])+$/;
+            if (DevNo.length != 0 && !regex.test(DevNo)) {
+                return false;
+            }
+            window.location.href = `/machine/search?DevNo=${DevNo}`;
+        }
+
+        function Order(index, DevNo, DevName, Account, field) {
+            window.location.href = `/machine/search?DevNo=${DevNo}&DevName=${DevName}&Account=${Account}&order=${field}&index=${index}`;
+        }
+
+        function History(DevNo) {
+            window.location.href = "/machine/machineHistory?DevNo=" + DevNo;
+        }
+
+        function Chart(DevNo, DevName) {
+            window.location.href = `/machine/machineChart?DevNo=${DevNo}&DevName=${DevName}`;
+        }
+
+        function Edit(DevNo) {
+            window.location.href = "/machine/machineEdit?DevNo=" + DevNo;
+        }
+
+        function Delete(DevNo, AccountNo) {
+            if (!DevNo || !AccountNo) {
+                return;
+            }
+            var rs = confirm(`確定要刪除${DevNo}?`);
+            if (rs) {
+                window.location.href = "/machine/machineDelete?DevNo=" + DevNo + "&AccountNo=" + AccountNo;
+            }
+        }
+
+        function Next(index, DevNo, DevName, Account, field) {
+            window.location.href = `/machine/search?DevNo=${DevNo}&DevName=${DevName}&Account=${Account}&order=${field}&index=${++index}`;
+        }
+
+        function Past(index, DevNo, DevName, Account, field) {
+            window.location.href = `/machine/search?DevNo=${DevNo}&DevName=${DevName}&Account=${Account}&order=${field}&index=${index - 1}`;
+        }
+
+        function Go(DevNo, DevName, Account, field) {
+            var index = document.getElementsByName('pageindex')[0].value - 1;
+            window.location.href = `/machine/search?DevNo=${DevNo}&DevName=${DevName}&Account=${Account}&order=${field}&index=${index}`;
+        }
+    </script>
+</head>
+
+<body>
+    <% if (locals.Name) { %>
+    <table border="0" align="right">
+        <tr>
+            <th>
+                <h3>您好, <%= Name %></h1>
+            </th>
+            <th><a href="/logout">登出</a></th>
+        </tr>
+    </table>
+    <% } %>
+    <img src="/img/logo.png" class="logo-left">
+    <table border="0" align="center">
+        <tr>
+            <% if (locals.SuperUser == 1) { %>
+            <th><a href="/firmware">OTA</a></th>
+            <th><a href="/serial">白名單</a></th>
+            <th><a href="/payment">加值卡</a></th>
+            <% } %>
+            <th><a href="/user">用戶</a></th>
+            <th><a href="/machine">機台</a></th>
+            <th><a href="/monthly">報表</a></th>
+        </tr>
+    </table>
+    <!-- <% if (data[index]) { %>
+    <h3>
+        <%= data[index].name %>
+        <input type="button" name="past" value="上一個" class="btn" onclick="Past('<%= index %>','<%= data.length %>');" />
+        <input type="button" name="next" value="下一個" class="btn" onclick="Next('<%= index %>','<%= data.length %>');" />
+    </h3>
+    <iframe width="850" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src=http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<%=data[index].lng %>,<%=data[index].lat %>&z=16&output=embed&t=>
+        </iframe> <% } %> <br /><br /> -->
+    <h1>機台 - 列表</h1>
+    <h2>目前連線機台數 - <%= totalOnline %>台</h2>
+    
+    <input type="text" name="SearchDevNo" placeholder="搜尋產品序號" value="<%= DevNo %>" />
+    <% if (locals.SuperUser == 1) { %>
+    <input type="text" name="SearchDevName" placeholder="搜尋機台名稱" value="<%= DevName %>" />
+    <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= Account %>" />
+    <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
+    <% } else { %>
+    <input type="button" name="search" value="搜尋" class="btn" onclick="SearchDevNo();" />
+    <% } %>
+    <br>
+    <% if(index > 0) { %>
+    <input type="button" name="past" value="上一頁" class="btn"
+        onclick="Past('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','<%= order %>');" />
+    <% } else { %>
+    <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
+    <% } %>
+    <%= index+1  %>/<%= totalPage  %>
+    <% if(index < totalPage - 1) { %>
+    <input type="button" name="next" value="下一頁" class="btn"
+        onclick="Next('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','<%= order %>');" />
+    <% } else { %>
+    <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
+    <% } %>
+    <table class="table">
+        <tr>
+            <th>編號</th>
+            <th>機台名稱
+                <% if(order == "a.DevName asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevName desc');" />
+                <% } else if (order == "a.DevName desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevName asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevName asc');" />
+                <% } %>
+            </th>
+            <th>所有者
+                <% if(order == "b.Account asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','b.Account desc');" />
+                <% } else if (order == "b.Account desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','b.Account asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','b.Account asc');" />
+                <% } %>
+            </th>
+            <th>序號
+                <% if(order == "a.DevNo asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevNo desc');" />
+                <% } else if (order == "a.DevNo desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevNo asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.DevNo asc');" />
+                <% } %>
+            </th>
+            <th>Group
+                <% if(order == "a.GroupNo asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.GroupNo desc');" />
+                <% } else if (order == "a.GroupNo desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.GroupNo asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.GroupNo asc');" />
+                <% } %></th>
+            <th>WiFi版本</th>
+            <th>SAA版本</th>
+            <th>創建時間
+                <% if(order == "a.CreateDate asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.CreateDate desc');" />
+                <% } else if (order == "a.CreateDate desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.CreateDate asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.CreateDate asc');" />
+                <% } %>
+            </th>
+            <th>使用期限
+                <% if(order == "a.ExpireDate asc") { %>
+                <input type="button" name="order" value="▼"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.ExpireDate desc');" />
+                <% } else if (order == "a.ExpireDate desc"){ %>
+                <input type="button" name="order" value="▲"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.ExpireDate asc');" />
+                <% } else { %>
+                <input type="button" name="order" value="▽"
+                    onclick="Order('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','a.ExpireDate asc');" />
+                <% } %>
+            </th>
+            <th>狀態</th>
+        </tr>
+        <% for ( var i = 0 ; i < data.length ; i++){ %>
+        <tr>
+            <td>
+                <%= linePerPage*index+(i+1) %>
+            </td>
+            <td>
+                <%= data[i].DevName  %>
+            </td>
+            <td>
+                <%= data[i].Account  %>
+            </td>
+            <td>
+                <%= data[i].DevNo  %>
+            </td>
+            <td>
+                <%= data[i].GroupNo  %>
+            </td>
+            <td>
+                <%= data[i].VerNum  %>
+            </td>
+            <td>
+                <%= data[i].SaaModel  %>
+            </td>
+            <td>
+                <% var date = new Date(data[i].CreateDate * 1000); %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() %>
+            </td>
+            <td>
+                <% var date = new Date(data[i].ExpireDate * 1000); %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() %>
+            </td>
+            <td>
+                <% if(data[i].Status > 0) { %>
+                連線
+                <% } %>
+            </td>
+            <td>
+                <input type="button" name="history" value="紀錄" class="btn"
+                    onclick="History('<%= data[i].DevNo  %>');" />
+                <input type="button" name="chart" value="圖表" class="btn" onclick="Chart('<%= data[i].DevNo  %>', '<%= data[i].DevName  %>');" />
+                <% if (locals.SuperUser == 1 || locals.SuperUser == 2) { %>
+                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].DevNo  %>');" />
+                <input type="button" name="delete" value="解綁" class="btn"
+                    onclick="Delete('<%= data[i].DevNo %>','<%= data[i].AccountNo %>');" />
+                <% } %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <% if(index > 0) { %>
+    <input type="button" name="past" value="上一頁" class="btn"
+        onclick="Past('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','<%= order %>');" />
+    <% } else { %>
+    <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
+    <% } %>
+    <%= index+1  %>/<%= totalPage  %>
+    <% if(index < totalPage - 1) { %>
+    <input type="button" name="next" value="下一頁" class="btn"
+        onclick="Next('<%= index %>','<%= DevNo %>','<%= DevName %>','<%= Account %>','<%= order %>');" />
+    <% } else { %>
+    <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
+    <% } %>
+    <br>
+    <input type="number" name="pageindex" placeholder="輸入頁碼" value="<%= index  + 1 %>" />
+    <input type="button" name="search" value="前往" class="btn"
+        onclick="Go('<%= DevNo %>','<%= DevName %>','<%= Account %>','<%= order %>');" />
+</body>
+
+</html>

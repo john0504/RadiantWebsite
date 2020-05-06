@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title></title>
+    <script type="text/javascript">
+        function Check() {
+            var ExpireDate = document.getElementsByName('ExpireDate')[0].value;
+            if (ExpireDate) {
+                if (ExpireDate / 10000 < 1970 || ExpireDate / 10000 > 2200) {
+                    alert('請檢查年份');
+                    return false;
+                } else if (ExpireDate % 100 < 1 || ExpireDate % 100 > 31) {
+                    alert('請檢查日期');
+                    return false;
+                } else if (Math.floor(ExpireDate / 100) % 100 < 1 || Math.floor(ExpireDate / 100) % 100 > 12) {
+                    alert('請檢查月份');
+                    return false;
+                }
+                return true;
+            }
+
+            var Name = document.getElementsByName('Name')[0].value;
+
+            if (Name) {
+                return true;
+            }
+            alert('please input the info.');
+            return false;
+
+        }
+    </script>
+</head>
+
+<body>
+    <form name="editform" action="machineEdit" method="post" accept-charset="utf-8" onSubmit="return Check();">
+        <h1>機台 - 修改</h1>
+        <input type="hidden" name="DevNo" value="<%=data[0].DevNo  %>" />
+        <div class="row">
+            <label>名稱:</label>
+            <input type="text" name="Name" placeholder="name" value="<%=data[0].DevName %>" />
+        </div>
+        <% if (locals.SuperUser == 1) { %>         
+        <div class="row">
+            <label>使用期限：</label>
+            <input type="number" name="ExpireDate" placeholder="請輸入如:20210101" value="<%=data[0].ExpireStr %>"/>
+        </div> 
+        <%} %>            
+        <div class="row">
+            <input class="btn" type='submit' value='提交'>
+            <input class="btn" type='reset' value='重置'>
+            <input class="btn" type='button' value='上一頁' onclick="javascript: window.history.back();">
+        </div>
+    </form>
+</body>
+
+</html>

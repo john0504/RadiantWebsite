@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title></title>
+    <script type="text/javascript">
+        function Check() {
+            var CardNo = document.getElementsByName('CardNo')[0].value;
+            var month = document.getElementsByName('CardMonth')[0].value;
+            if (CardNo && month) {
+                return true;
+            }
+            alert('please input the info.');
+            return false;
+        }
+        function Create() {
+            var count = document.getElementsByName('count')[0].value;
+            var month = document.getElementsByName('month')[0].value;
+            if (count && month && count > 0 && month > 0) {
+                window.location.href = `/payment/create?count=${count}&month=${month}`;
+                return true;
+            }
+            alert('please input the info.');
+            return false;
+
+        }
+        function Download(text) {
+            var element = document.createElement('a');
+            var month = document.getElementsByName('CardMonth')[0].value;
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', `PaymentFile_${month}m.csv`);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
+</head>
+
+<body>
+    <form name="addform" action="paymentAdd" method="post" accept-charset="utf-8" onSubmit="return Check();">
+        <h1>加值卡 - 新增加值卡</h1>
+        <div>
+            <label>卡片序號：</label>
+            <br />
+            <textarea rows="6" cols="60" name="CardNo" placeholder="請用逗號隔開"><%=CardNoList %></textarea>
+        </div>
+        <div class="row">
+            <label>請輸入儲值月數:</label>
+            <input type="number" name="CardMonth" placeholder="month" value="<%=CardMonth %>" />
+        </div>
+        <div class="row">
+            <input class="btn" type='button' value='下載' onclick="Download('<%=CardNoList %>');">
+            <input class="btn" type='submit' value='提交'>
+            <input class="btn" type='button' value='上一頁' onclick="javascript: window.history.back();">
+            <br />
+            <label class="msgerr">
+                <%=msg %>
+            </label>
+        </div>
+    </form>
+    <br />
+    <h1>生成序號小工具</h1>
+    <div class="row">
+        <label>請輸入組數:</label>
+        <input type="number" name="count" placeholder="count" />
+    </div>
+    <div class="row">
+        <label>請輸入儲值月數:</label>
+        <input type="number" name="month" placeholder="month" />
+    </div>
+    <input class="btn" type='button' value='生成' onclick="Create();">
+</body>
+
+</html>

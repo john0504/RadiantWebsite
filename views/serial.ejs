@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+         function Search() {
+            var SearchAllow = document.getElementsByName('SearchAllow')[0].value;
+            var regex = /^([a-zA-Z0-9])+$/;
+            if (SearchAllow.length == 0) {
+                window.location.href = "/serial";
+                return true;
+            }
+            if (!regex.test(SearchAllow)) {
+                return false;
+            }
+            window.location.href = "/serial/search?SearchAllow=" + SearchAllow;
+        }
+        function SearchGroup() {
+            var SearchAllowGroup = document.getElementsByName('SearchAllowGroup')[0].value;
+
+            if (SearchAllowGroup.length == 0) {
+                window.location.href = "/serial";
+                return true;
+            }
+            window.location.href = "/serial/searchGroup?SearchAllowGroup=" + SearchAllowGroup;
+        }
+        function Edit(DevNo) {
+            window.location.href = "/serial/serialEdit?DevNo=" + DevNo;
+        }
+        function Delete(DevNo) {
+            var rs = confirm(`確定要刪除${DevNo}?`);
+            if (rs) {
+                window.location.href = "/serial/serialDelete?DevNo=" + DevNo;
+            }
+        }
+        function DeleteAllow(DevNo) {
+            var rs = confirm(`確定要刪除${DevNo}?`);
+            if (rs) {
+                window.location.href = "/serial/allowDelete?DevNo=" + DevNo;
+            }
+        }        
+        function Move(count) {
+            var rs = confirm(`確定要搬移${count}筆資料進白名單?`);
+            if (rs) {
+                window.location.href = "/serial/move";
+            }
+        }
+        function Remove(count) {
+            var rs = confirm(`確定要清除${count}筆資料?`);
+            if (rs) {
+                window.location.href = "/serial/remove";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <% if (locals.Name) { %>
+    <table border="0" align="right">
+        <tr>
+            <th>
+                <h3>您好, <%= Name %></h1>
+            </th>
+            <th><a href="/logout">登出</a></th>
+        </tr>
+    </table>
+    <% } %>
+    <img src="/img/logo.png" class="logo-left">
+    <table border="0" align="center">
+        <tr>
+            <th><a href="/firmware">OTA</a></th>
+            <th><a href="/serial">白名單</a></th>
+            <th><a href="/payment">加值卡</a></th>
+            <th><a href="/user">用戶</a></th>
+            <th><a href="/machine">機台</a></th>
+            <th><a href="/monthly">報表</a></th>
+        </tr>
+    </table>
+    <h1>預備白名單 - 列表</h1>
+    <div class="control">
+        <input class="btn" type='submit' value='新增' onclick="javascript: location.href='/serial/add'">
+        <input class="btn" type='button' value='搬移' onclick="Move('<%= data.length  %>')">
+        <input class="btn" type='button' value='清除' onclick="Remove('<%= data.length  %>')">
+    </div>
+    <table class="table">
+        <tr>
+            <th>編號</th>
+            <th>序號</th>
+            <th>使用期限</th>
+            <th>Group</th>
+        </tr>
+        <% for ( var i = 0 ; i < data.length ; i++){ %>
+        <tr>
+            <td>
+                <%= i+1 %>
+            </td>
+            <td>
+                <%= data[i].DevNo  %>
+            </td>
+            <td>
+                <% var date = new Date(data[i].ExpireDate * 1000); %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() %>
+            </td>
+            <td>
+                <%= data[i].GroupNo  %>
+            </td>
+            <td>                               
+                <input type="button" name="delete" value="刪除" class="btn" onclick="Delete('<%= data[i].DevNo  %>');" />                
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <h1>白名單 - 列表</h1>
+    <input type="text" name="SearchAllow" placeholder="搜尋序號" value="<%= SearchAllow %>" />
+    <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
+    <br/>
+    <input type="number" name="SearchAllowGroup" placeholder="搜尋Gruop" value="<%= SearchAllowGroup %>" />
+    <input type="button" name="search" value="搜尋" class="btn" onclick="SearchGroup();" />
+    <table class="table">
+        <tr>
+            <th>編號</th>
+            <th>序號</th>
+            <th>使用期限</th>
+            <th>Group</th>
+        </tr>
+        <% for ( var j = 0 ; j < allow.length ; j++){ %>
+        <tr>
+            <td>
+                <%= j+1 %>
+            </td>
+            <td>
+                <%= allow[j].DevNo  %>
+            </td>
+            <td>
+                <% var date = new Date(allow[j].ExpireDate * 1000); %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() %>
+            </td>
+            <td>
+                <%=allow[j].GroupNo  %>
+            </td>
+            <td>                               
+                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= allow[j].DevNo  %>');" />                          
+                <input type="button" name="deleteallow" value="刪除" class="btn" onclick="DeleteAllow('<%= allow[j].DevNo  %>');" />                
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</body>
+
+</html>

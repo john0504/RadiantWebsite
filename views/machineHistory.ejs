@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        function Next(index, DevNo) {
+            window.location.href = `/machine/machineHistory?DevNo=${DevNo}&index=${++index}`;
+        }
+
+        function Past(index, DevNo) {
+            window.location.href = `/machine/machineHistory?DevNo=${DevNo}&index=${index - 1}`;
+        }
+    </script>
+</head>
+
+<body>
+    <% if (locals.Name) { %>
+    <table border="0" align="right">
+        <tr>
+            <th>
+                <h3>您好, <%= Name %></h1>
+            </th>
+            <th><a href="/logout">登出</a></th>
+        </tr>
+    </table>
+    <% } %>
+    <img src="/img/logo.png" class="logo-left">
+    <table border="0" align="center">
+        <tr>
+            <% if (locals.SuperUser == 1) { %>
+            <th><a href="/firmware">OTA</a></th>
+            <th><a href="/serial">白名單</a></th>
+            <th><a href="/payment">加值卡</a></th>
+            <% } %>
+            <th><a href="/user">用戶</a></th>
+            <th><a href="/machine">機台</a></th>
+            <th><a href="/monthly">報表</a></th>
+        </tr>
+    </table>
+    <h1>機台 - 歷史紀錄</h1>
+    <% if(index > 0) { %>
+    <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= DevNo %>');" />
+    <% } else { %>
+    <input type="button" name="past" value="上一頁" class="btn" disabled="true"
+        onclick="Past('<%= index %>','<%= DevNo %>');" />
+    <% } %>
+    <%= index+1  %>
+    <% if(index < totalPage - 1) { %>
+    <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= DevNo %>');" />
+    <% } else { %>
+    <input type="button" name="next" value="下一頁" class="btn" disabled="true"
+        onclick="Next('<%= index %>','<%= DevNo %>');" />
+    <% } %>
+    <table class="table">
+        <tr>
+            <th>交易日期</th>
+            <th>投幣數目</th>
+            <th>出獎數目</th>
+            <th>投幣累計值</th>
+            <th>出獎累計值</th>
+            <th>錯誤碼</th>
+            <th>裝置更新日期</th>
+        </tr>
+        <% for ( var i = 0 ; i < data.length ; i++){ %>
+        <tr>
+            <td>
+                <% var date = new Date(data[i].DateCode*1000); %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() + " " 
+                    + date.getHours() + ":" 
+                    + date.getMinutes() + ":" 
+                    + date.getSeconds()  %>
+            </td>
+            <td>
+                <%= data[i].H60  %>
+            </td>
+            <td>
+                <%= data[i].H62  %>
+            </td>
+            <td>
+                <%= data[i].totalmoney  %>
+            </td>
+            <td>
+                <%= data[i].totalgift  %>
+            </td>
+            <td>
+                <% if( data[i].H63 !=0) { %>
+                <%= data[i].H63  %>
+                <% } else { %>
+                <% } %>
+            </td>
+            <td>
+                <% var date = new Date(data[i].DevTime*1000); %>
+                <% if( data[i].DevTime != null) { %>
+                <%= date.getFullYear() + "-" 
+                    + (date.getMonth() + 1) + "-" 
+                    + date.getDate() + " " 
+                    + date.getHours() + ":" 
+                    + date.getMinutes() + ":" 
+                    + date.getSeconds()  %>
+                <% } else { %>
+                <% } %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+    <% if(index > 0) { %>
+    <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= DevNo %>');" />
+    <% } else { %>
+    <input type="button" name="past" value="上一頁" class="btn" disabled="true"
+        onclick="Past('<%= index %>','<%= DevNo %>');" />
+    <% } %>
+    <%= index+1  %>
+    <% if(index < totalPage - 1) { %>
+    <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= DevNo %>');" />
+    <% } else { %>
+    <input type="button" name="next" value="下一頁" class="btn" disabled="true"
+        onclick="Next('<%= index %>','<%= DevNo %>');" />
+    <% } %>
+</body>
+
+</html>
