@@ -58,7 +58,8 @@ CREATE TABLE `DeviceTbl` (
   `Info2` int(11) NOT NULL DEFAULT 0,
   `Info3` int(11) NOT NULL DEFAULT 0,
   `TypeId` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`UserId`,`Address`)
+  PRIMARY KEY (`UserId`,`Address`),
+  KEY `Address` (`Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
