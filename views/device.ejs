@@ -133,6 +133,10 @@
                     onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','a.Address asc');" />
                 <% } %>
             </th>
+            <th>類型</th>
+            <th>參數1</th>
+            <th>參數2</th>
+            <th>參數3</th>
         </tr>
         <% for ( var i = 0 ; i < data.length ; i++){ %>
         <tr>
@@ -146,6 +150,9 @@
                 <%= data[i].Address  %>
             </td>
             <td>
+                <%= data[i].Name  %>
+            </td>
+            <td>
                 <%= data[i].Info1  %>
             </td>
             <td>
@@ -153,9 +160,6 @@
             </td>
             <td>
                 <%= data[i].Info3  %>
-            </td>
-            <td>
-                <%= data[i].Name  %>
             </td>
             <td>
                 <input type="button" name="history" value="紀錄" class="btn"

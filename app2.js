@@ -9,6 +9,7 @@ var session = require('express-session');
 var routes = require('./routes/index2');
 var ssl = require('./routes/ssl');
 var login = require('./routes/login');
+var device = require('./routes/device');
 var radiant = require('./routes/radiant');
 
 var app = express();
@@ -71,6 +72,7 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/radiant', radiant);
 app.use('/login', login);
+app.use('/device', device);
 app.use('/.well-known/acme-challenge', ssl);
 
 
