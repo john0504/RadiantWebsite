@@ -14,8 +14,8 @@
 <body>
     <!-- <img src="/img/logo.png" class="logo"> -->
     <div class="container">
-        <% if (locals.Name) { %>
-        <h1>您好, <%= Name %></h1>
+        <% if (locals.Account) { %>
+        <h1>您好, <%= Account %></h1>
         <a href="/logout">登出</a>
         <% } else { %>
         <form class="form-signin" role="form" method="post">

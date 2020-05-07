@@ -2,7 +2,7 @@ var express = require('express'),
     router = express.Router();
 
 var LocalSN = 0;
-var DeviceList = [];
+var mysqlQuery = req.mysqlQuery;
 
 const VendorId = [0x11, 0x02];
 
@@ -126,6 +126,7 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
 
 router.post('/response', function (req, res) {
     console.log('response:' + JSON.stringify(req.body['rx']));
+    var UserId = req.body['UserId'];
     var rx = JSON.parse(req.body['rx']);
     var sequenceNo = [rx[0], rx[1], rx[2]];
     var sourceAddr = [rx[3], rx[4]];
@@ -134,8 +135,38 @@ router.post('/response', function (req, res) {
     var vendorId = [rx[8], rx[9]];
     switch(cmdNo) {
         case CMD_REPORT_DATA:
-            DeviceList[rx[10]] = [rx[10], rx[11], rx[12], rx[13], rx[14]];
-            DeviceList[rx[15]] = [rx[15], rx[16], rx[17], rx[18], rx[19]];
+            var insertsql = {
+                UserId: UserId,
+                Address: rx[10],
+                Info1: rx[11],
+                Info2: rx[12],
+                Info3: rx[13],
+                TypeId: rx[14]
+            };
+            var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+            mysqlQuery(sql, [insertsql, insertsql], function (err, result) {
+                if (err) {
+                    console.log('[INSERT ERROR] - ', err.message);
+                    return;
+                }
+            });
+            if (rx[15] != 0x00) {
+                var insertsql = {
+                    UserId: req.session.UserId,
+                    Address: rx[15],
+                    Info1: rx[16],
+                    Info2: rx[17],
+                    Info3: rx[18],
+                    TypeId: rx[19]
+                };
+                var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+                mysqlQuery(sql, [insertsql, insertsql], function (err, result) {
+                    if (err) {
+                        console.log('[INSERT ERROR] - ', err.message);
+                        return;
+                    }
+                });
+            }
             break;
         case CMD_CHANGE_ADDR_RES:
             var SourceAddrCheck = [rx[10], rx[11]];

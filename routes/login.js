@@ -8,7 +8,6 @@ var express = require('express'),
 router.get('/', function (req, res, next) {
     if (req.session.Sign) {
         res.locals.Account = req.session.Account;
-        res.locals.Name = req.session.Name;
     }
 
     res.render('login', { title: title });
@@ -66,12 +65,11 @@ router.post('/', function (req, res, next) {
             return;
         } else {
             //設定session
-            req.session.Name = result[0].Name;
             req.session.Account = Account;
             req.session.Sign = true;
             req.session.SuperUser = result[0].SuperUser;
-            req.session.AccountNo = result[0].AccountNo;
-            console.log(req.session.Name + " login!");
+            req.session.UserId = result[0].Id;
+            console.log(req.session.Account + " login!");
             // res.render('login',{title:"登入成功"});
             res.redirect('/machine');
             return;

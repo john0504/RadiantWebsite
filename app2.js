@@ -13,6 +13,37 @@ var radiant = require('./routes/radiant');
 
 var app = express();
 
+// DataBase 
+var mysql = require("mysql");
+
+var pool = mysql.createPool({
+    host: "localhost",
+    user: "tywu",
+    password: "12345678",
+    database: "Radiant_db",
+    connectionLimit: 100
+});
+
+var mysqlQuery = function (sql, options, callback) {
+    if (typeof options === "function") {
+        callback = options;
+        options = undefined;
+    }
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            callback(err, null, null);
+        } else {
+            conn.query(sql, options, function (err, results, fields) {
+                // callback
+                callback(err, results, fields);
+            });
+            // release connection。
+            // 要注意的是，connection 的釋放需要在此 release，而不能在 callback 中 release
+            conn.release();
+        }
+    });
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,6 +61,14 @@ app.use(session({
     secret: 'radiant', //secret的值建议使用随机字符串
     cookie: { maxAge: 60 * 1000 * 30 } // 过期时间（毫秒）
 }));
+
+// db state
+app.use(function (req, res, next) {
+    req.mysqlQuery = mysqlQuery;
+    req.mailTransport = mailTransport;
+    req.mqttClient = client;
+    next();
+});
 
 app.use('/', routes);
 app.use('/radiant', radiant);
