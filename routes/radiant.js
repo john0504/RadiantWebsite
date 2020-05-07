@@ -2,7 +2,6 @@ var express = require('express'),
     router = express.Router();
 
 var LocalSN = 0;
-var mysqlQuery = req.mysqlQuery;
 
 const VendorId = [0x11, 0x02];
 
@@ -125,6 +124,7 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
 }
 
 router.post('/response', function (req, res) {
+    var mysqlQuery = req.mysqlQuery;
     console.log('response:' + JSON.stringify(req.body['rx']));
     var UserId = req.body['UserId'];
     var rx = JSON.parse(req.body['rx']);
