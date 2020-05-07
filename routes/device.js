@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
         mysqlQuery(sql, function (err, dev2) {
             var total = dev[0].count;
             totalPage = Math.ceil(total / linePerPage);
-            sql = 'SELECT a.*,b.Account FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+            sql = 'SELECT a.*,b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                     left join DeviceTypeTbl c on a.TypeId = c.Id';
 
             if (req.session.SuperUser != 1) {
