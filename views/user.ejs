@@ -20,13 +20,13 @@
             window.location.href = "/user/search?SearchAccount=" + SearchAccount;
         }
         function Edit(Id) {
-            window.location.href = "/user/userEdit?Id=" + Id;
+            window.location.href = "/user/userEdit?UserId=" + Id;
         }
 
         function Delete(Id) {
             var rs = confirm('確定要刪除?');
             if (rs) {
-                window.location.href = "/user/userDelete?Id=" + Id;
+                window.location.href = "/user/userDelete?UserId=" + Id;
             }
         }
 

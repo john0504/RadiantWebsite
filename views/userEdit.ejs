@@ -24,7 +24,7 @@
 <body>
     <form name="editform" action="userEdit" method="post" accept-charset="utf-8" onSubmit="return Check();">
         <h1>用戶 - 修改</h1>
-        <input type="hidden" name="Id" value="<%=data[0].Id  %>" />
+        <input type="hidden" name="Id" value="<%= data[0].Id %>" />
         <div class="row">
             <label>帳號：</label>
             <% if (locals.SuperUser == 1) { %>
