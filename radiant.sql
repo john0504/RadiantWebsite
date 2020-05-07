@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `UserTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserTbl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account` char(128) NOT NULL,
-  `password` char(128) NOT NULL,
-  `enable` tinyint(1) NOT NULL DEFAULT '1',
-  `superUser` tinyint(1) NOT NULL DEFAULT '0',
-  `createDate` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Account` char(128) NOT NULL,
+  `Password` char(128) NOT NULL,
+  `Enable` tinyint(1) NOT NULL DEFAULT '1',
+  `SuperUser` tinyint(1) NOT NULL DEFAULT '0',
+  `CreateDate` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,14 +51,14 @@ DROP TABLE IF EXISTS `DeviceTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DeviceTbl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) DEFAULT NULL,
-  `address` int(8) NOT NULL DEFAULT 0,
-  `info1` int(8) NOT NULL DEFAULT 0,
-  `info2` int(8) NOT NULL DEFAULT 0,
-  `info3` int(8) NOT NULL DEFAULT 0,
-  `typeId` int(8) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) DEFAULT NULL,
+  `Address` int(11) NOT NULL DEFAULT 0,
+  `Info1` int(11) NOT NULL DEFAULT 0,
+  `Info2` int(11) NOT NULL DEFAULT 0,
+  `Info3` int(11) NOT NULL DEFAULT 0,
+  `TypeId` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,6 +72,93 @@ LOCK TABLES `DeviceTbl` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `GroupTbl`
+--
+
+DROP TABLE IF EXISTS `GroupTbl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `GroupTbl` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) DEFAULT NULL,
+  `Address` int(11) NOT NULL DEFAULT 0,
+  `GroupId` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GroupTbl`
+--
+
+LOCK TABLES `GroupTbl` WRITE;
+/*!40000 ALTER TABLE `GroupTbl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `GroupTbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SceneTbl`
+--
+
+DROP TABLE IF EXISTS `SceneTbl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SceneTbl` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) DEFAULT NULL,
+  `Address` int(11) NOT NULL DEFAULT 0,
+  `SceneId` int(11) NOT NULL DEFAULT 0,
+  `Lum` int(11) NOT NULL DEFAULT 0,
+  `RgbR` int(11) NOT NULL DEFAULT 0,
+  `RgbG` int(11) NOT NULL DEFAULT 0,
+  `RgbB` int(11) NOT NULL DEFAULT 0,
+  `Ct` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SceneTbl`
+--
+
+LOCK TABLES `SceneTbl` WRITE;
+/*!40000 ALTER TABLE `SceneTbl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SceneTbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ScheduleTbl`
+--
+
+DROP TABLE IF EXISTS `ScheduleTbl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ScheduleTbl` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) DEFAULT NULL,
+  `Address` int(11) NOT NULL DEFAULT 0,
+  `ScheduleId` int(11) NOT NULL DEFAULT 0,
+  `ScheType` int(11) NOT NULL DEFAULT 0,
+  `Month` int(11) NOT NULL DEFAULT 0,
+  `Day` int(11) NOT NULL DEFAULT 0,
+  `Hour` int(11) NOT NULL DEFAULT 0,
+  `Minute` int(11) NOT NULL DEFAULT 0,
+  `Second` int(11) NOT NULL DEFAULT 0,
+  `SceneId` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ScheduleTbl`
+--
+
+LOCK TABLES `ScheduleTbl` WRITE;
+/*!40000 ALTER TABLE `ScheduleTbl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ScheduleTbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `DeviceHistoryTbl`
 --
 
@@ -79,15 +166,15 @@ DROP TABLE IF EXISTS `DeviceHistoryTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DeviceHistoryTbl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) DEFAULT NULL,
-  `address` int(8) NOT NULL DEFAULT 0,
-  `info1` int(8) NOT NULL DEFAULT 0,
-  `info2` int(8) NOT NULL DEFAULT 0,
-  `info3` int(8) NOT NULL DEFAULT 0,
-  `typeId` int(8) NOT NULL DEFAULT 0,
-  `updateDate` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) DEFAULT NULL,
+  `Address` int(11) NOT NULL DEFAULT 0,
+  `Info1` int(11) NOT NULL DEFAULT 0,
+  `Info2` int(11) NOT NULL DEFAULT 0,
+  `Info3` int(11) NOT NULL DEFAULT 0,
+  `TypeId` int(11) NOT NULL DEFAULT 0,
+  `UpdateDate` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -108,10 +195,10 @@ DROP TABLE IF EXISTS `DeviceTypeTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DeviceTypeTbl` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `name` char(40) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  `Id` int(11) NOT NULL DEFAULT 0,
+  `Name` char(40) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
