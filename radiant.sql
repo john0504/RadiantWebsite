@@ -29,7 +29,7 @@ CREATE TABLE `UserTbl` (
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   `superUser` tinyint(1) NOT NULL DEFAULT '0',
   `createDate` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,7 +58,7 @@ CREATE TABLE `DeviceTbl` (
   `info2` int(8) NOT NULL DEFAULT 0,
   `info3` int(8) NOT NULL DEFAULT 0,
   `typeId` int(8) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,7 +87,7 @@ CREATE TABLE `DeviceHistoryTbl` (
   `info3` int(8) NOT NULL DEFAULT 0,
   `typeId` int(8) NOT NULL DEFAULT 0,
   `updateDate` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +111,7 @@ CREATE TABLE `DeviceTypeTbl` (
   `id` int(11) NOT NULL DEFAULT 0,
   `name` char(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
