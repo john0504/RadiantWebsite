@@ -71,7 +71,7 @@ router.post('/', function (req, res, next) {
             req.session.UserId = result[0].Id;
             console.log(req.session.Account + " login!");
             // res.render('login',{title:"登入成功"});
-            res.redirect('/machine');
+            res.redirect('/device');
             return;
         }
     });
