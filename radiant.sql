@@ -51,7 +51,6 @@ DROP TABLE IF EXISTS `DeviceTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DeviceTbl` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` int(11) NOT NULL,
   `Address` int(11) NOT NULL,
   `Info1` int(11) NOT NULL DEFAULT 0,
