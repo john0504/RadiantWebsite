@@ -65,8 +65,6 @@ app.use(session({
 // db state
 app.use(function (req, res, next) {
     req.mysqlQuery = mysqlQuery;
-    req.mailTransport = mailTransport;
-    req.mqttClient = client;
     next();
 });
 
