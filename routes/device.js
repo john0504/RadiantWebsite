@@ -18,8 +18,8 @@ router.get('/', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
-    var UserId = 0;
-    var Address = 0;
+    var UserId = "";
+    var Address = "";
     var order = "";
     var index = parseInt(req.query.index) ? parseInt(req.query.index) : 0;
     if (index < 0) {

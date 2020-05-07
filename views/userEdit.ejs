@@ -10,7 +10,6 @@
         function Check() {
 
             var Account = document.getElementsByName('Account')[0].value;
-            var Name = document.getElementsByName('Name')[0].value;
             var Password = document.getElementsByName('Password')[0].value;
             if (Account && Name && Password) {
                 return true;
@@ -25,7 +24,7 @@
 <body>
     <form name="editform" action="userEdit" method="post" accept-charset="utf-8" onSubmit="return Check();">
         <h1>用戶 - 修改</h1>
-        <input type="hidden" name="AccountNo" value="<%=data[0].AccountNo  %>" />
+        <input type="hidden" name="Id" value="<%=data[0].Id  %>" />
         <div class="row">
             <label>帳號：</label>
             <% if (locals.SuperUser == 1) { %>
@@ -34,25 +33,17 @@
             <input type="text" name="Account" placeholder="Account" value="<%=data[0].Account %>" readonly />
             <% } %>
         </div>
-        <% if (locals.SuperUser !=2) { %>
-        <div class="row">
-            <label>名稱：</label>
-            <input type="text" name="Name" placeholder="Name" value="<%=data[0].Name %>" />
-        </div>
-        <% } %>
-        <% if (locals.SuperUser != 2) { %>
         <div class="row">
             <label>密碼：</label>
             <input type="text" name="Password" placeholder="Password" value="<%=data[0].Password %>" />
         </div>
-        <% } %>
-        <% if (locals.SuperUser == 1 || locals.SuperUser == 2) { %>
+        <% if (locals.SuperUser == 1) { %>
         <div class="row">
             <label>帳號權限：</label>
             <input type="radio" name="Enable" value="1" <%=data[0].Enable ? "checked" : "" %>> 啟用 </input>
             <input type="radio" name="Enable" value="0" <%=data[0].Enable ? "" : "checked" %>> 禁用 </input>
         </div>
-            <% if (data[0].SuperUser != 1 && data[0].SuperUser != 2) { %>
+            <% if (data[0].SuperUser != 1) { %>
             <div class="row">
                 <label>後台登入權限：</label>
                 <input type="radio" name="SuperUser" value="3" <%=data[0].SuperUser ? "checked" : "" %>> 啟用 </input>

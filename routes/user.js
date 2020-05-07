@@ -9,7 +9,6 @@ function checkSession(req, res) {
         return false;
     } else {
         res.locals.Account = req.session.Account;
-        res.locals.Name = req.session.Name;
         res.locals.SuperUser = req.session.SuperUser;
     }
     return true;
@@ -31,8 +30,8 @@ router.get('/', function (req, res, next) {
     } else if (req.session.SuperUser == 2) {
         sql += ' WHERE SuperUser != 1';
     } else {
-        var AccountNo = req.session.AccountNo;
-        sql += ` WHERE AccountNo = '${AccountNo}'`
+        var UserId = req.session.UserId;
+        sql += ` WHERE Id = '${UserId}'`
     }
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
@@ -42,8 +41,8 @@ router.get('/', function (req, res, next) {
         } else if (req.session.SuperUser == 2) {
             sql = 'SELECT * FROM AccountTbl WHERE SuperUser != 1';
         } else {
-            var AccountNo = req.session.AccountNo;
-            sql = `SELECT * FROM AccountTbl WHERE AccountNo = '${AccountNo}'`
+            var UserId = req.session.UserId;
+            sql = `SELECT * FROM AccountTbl WHERE Id = '${UserId}'`
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -146,11 +145,11 @@ router.get('/userEdit', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
-    var AccountNo = req.query.AccountNo;
+    var UserId = req.query.UserId;
 
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('SELECT * FROM AccountTbl WHERE AccountNo = ?', AccountNo, function (err, accounts) {
+    mysqlQuery('SELECT * FROM AccountTbl WHERE Id = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }
@@ -167,7 +166,7 @@ router.post('/userEdit', function (req, res, next) {
         return;
     }
     var mysqlQuery = req.mysqlQuery;
-    var AccountNo = req.body.AccountNo;
+    var UserId = req.body.UserId;
 
     var sql = {
         Account: req.body.Account
@@ -189,12 +188,12 @@ router.post('/userEdit', function (req, res, next) {
         sql.SuperUser = req.body.SuperUser;
     }
 
-    mysqlQuery('UPDATE AccountTbl SET ? WHERE AccountNo = ?', [sql, AccountNo], function (err, accounts) {
+    mysqlQuery('UPDATE AccountTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
         if (err) {
             console.log(err);
         }
         if (req.body.Enable == false) {
-            var token = AccountNo.toString(16);
+            var token = UserId.toString(16);
             if (token.length == 1) {
                 token = "000" + token;
             } else if (token.length == 2) {
@@ -221,10 +220,10 @@ router.get('/userDelete', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
-    var AccountNo = req.query.AccountNo;
+    var UserId = req.query.UserId;
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('DELETE FROM AccountTbl WHERE AccountNo = ?', AccountNo, function (err, accounts) {
+    mysqlQuery('DELETE FROM AccountTbl WHERE Id = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }

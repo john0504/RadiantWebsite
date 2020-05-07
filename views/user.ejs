@@ -19,14 +19,14 @@
             }
             window.location.href = "/user/search?SearchAccount=" + SearchAccount;
         }
-        function Edit(AccountNo) {
-            window.location.href = "/user/userEdit?AccountNo=" + AccountNo;
+        function Edit(Id) {
+            window.location.href = "/user/userEdit?Id=" + Id;
         }
 
-        function Delete(AccountNo) {
+        function Delete(Id) {
             var rs = confirm('確定要刪除?');
             if (rs) {
-                window.location.href = "/user/userDelete?AccountNo=" + AccountNo;
+                window.location.href = "/user/userDelete?Id=" + Id;
             }
         }
 
@@ -62,14 +62,8 @@
     <img src="/img/logo.png" class="logo-left">
     <table border="0" align="center">
         <tr>
-            <% if (locals.SuperUser == 1) { %>
-            <th><a href="/firmware">OTA</a></th>
-            <th><a href="/serial">白名單</a></th>
-            <th><a href="/payment">加值卡</a></th>
-            <% } %>
             <th><a href="/user">用戶</a></th>
-            <th><a href="/machine">機台</a></th>
-            <th><a href="/monthly">報表</a></th>
+            <th><a href="/machine">裝置</a></th>
         </tr>
     </table>
     <h1>用戶 - 列表</h1>
@@ -96,7 +90,6 @@
         <tr>
             <th>編號</th>
             <th>帳號</th>
-            <th>名稱</th>
             <th>建立日期</th>
             <th>狀態</th>
             <th>後台權限</th>
@@ -108,9 +101,6 @@
             </td>
             <td>
                 <%= data[i].Account  %>
-            </td>
-            <td>
-                <%= data[i].Name  %>
             </td>
             <td>
                 <% var date = new Date(data[i].CreateDate * 1000); %>
@@ -136,10 +126,10 @@
                 <% } %>
             </td>
             <td>
-                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].AccountNo  %>');" />
+                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].Id  %>');" />
                 <% if (locals.SuperUser == 1) { %>
                 <input type="button" name="delete" value="刪除" class="btn"
-                    onclick="Delete('<%= data[i].AccountNo  %>');" />
+                    onclick="Delete('<%= data[i].Id  %>');" />
                 <% } %>
             </td>
         </tr>

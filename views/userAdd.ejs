@@ -11,7 +11,6 @@
 
             var Account = document.getElementsByName('Account')[0].value;
             var pwd = document.getElementsByName('Password')[0].value;
-            var name = document.getElementsByName('Name')[0].value;
             if (Account && pwd && name) {
                 return true;
             }
@@ -32,10 +31,6 @@
         <div class="row">
             <label>密碼：</label>
             <input type="password" name="Password" placeholder="Password" />
-        </div>
-        <div class="row">
-            <label>名稱：</label>
-            <input type="text" name="Name" placeholder="Name" />
         </div>
         <div class="row">
             <input class="btn" type='submit' value='提交'>
