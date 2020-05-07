@@ -113,6 +113,7 @@ CREATE TABLE `SceneTbl` (
   `RgbG` int(11) NOT NULL DEFAULT 0,
   `RgbB` int(11) NOT NULL DEFAULT 0,
   `Ct` int(11) NOT NULL DEFAULT 0,
+  `Enable` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -145,6 +146,7 @@ CREATE TABLE `ScheduleTbl` (
   `Minute` int(11) NOT NULL DEFAULT 0,
   `Second` int(11) NOT NULL DEFAULT 0,
   `SceneId` int(11) NOT NULL DEFAULT 0,
+  `Enable` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
