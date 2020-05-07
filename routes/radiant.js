@@ -152,7 +152,7 @@ router.post('/response', function (req, res) {
             });
             if (rx[15] != 0x00) {
                 var insertsql = {
-                    UserId: req.session.UserId,
+                    UserId: UserId,
                     Address: rx[15],
                     Info1: rx[16],
                     Info2: rx[17],
