@@ -127,7 +127,7 @@ router.post('/response', function (req, res) {
     var mysqlQuery = req.mysqlQuery;
     console.log('response:' + JSON.stringify(req.body['rx']));
     var UserId = req.body['UserId'];
-    var rx = JSON.parse(req.body['rx']);
+    var rx = req.body['rx'];
     var sequenceNo = [rx[0], rx[1], rx[2]];
     var sourceAddr = [rx[3], rx[4]];
     var crc = [rx[5], rx[6]];
