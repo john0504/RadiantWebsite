@@ -143,8 +143,14 @@ router.post('/response', function (req, res) {
                 Info3: rx[13],
                 TypeId: rx[14]
             };
+            var updatesql = {
+                Info1: rx[11],
+                Info2: rx[12],
+                Info3: rx[13],
+                TypeId: rx[14]
+            };
             var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-            mysqlQuery(sql, [insertsql, insertsql], function (err, result) {
+            mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
                 if (err) {
                     console.log('[INSERT ERROR] - ', err.message);
                     return;
@@ -159,8 +165,14 @@ router.post('/response', function (req, res) {
                     Info3: rx[18],
                     TypeId: rx[19]
                 };
+                var updatesql = {
+                    Info1: rx[16],
+                    Info2: rx[17],
+                    Info3: rx[18],
+                    TypeId: rx[19]
+                };
                 var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-                mysqlQuery(sql, [insertsql, insertsql], function (err, result) {
+                mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
                     if (err) {
                         console.log('[INSERT ERROR] - ', err.message);
                         return;
