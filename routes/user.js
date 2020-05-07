@@ -187,23 +187,8 @@ router.post('/userEdit', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        if (req.body.Enable == false) {
-            var token = UserId.toString(16);
-            if (token.length == 1) {
-                token = "000" + token;
-            } else if (token.length == 2) {
-                token = "00" + token;
-            } else if (token.length == 3) {
-                token = "0" + token;
-            }
-            var topic = `WAWA/${token}/C`;
-            var paylod = JSON.stringify({ time: Date.now() });
-            var mqttClient = req.mqttClient;
-            mqttClient.publish(topic, paylod, { qos: 1, retain: false });
-        }
 
         res.locals.Account = req.session.Account;
-        res.locals.Name = req.session.Name;
         res.setHeader('Content-Type', 'application/json');
         res.redirect('/user');
     });
