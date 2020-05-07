@@ -39,7 +39,7 @@ router.post('/', function (req, res, next) {
         res.render('login', { title: res.locals.error });
         return;
     }
-    var cmd = "select * from AccountTbl where Account = ?";
+    var cmd = "select * from UserTbl where Account = ?";
     mysqlQuery(cmd, [Account], function (err, result) {
         if (err) {
             return;
