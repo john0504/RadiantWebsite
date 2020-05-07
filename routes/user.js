@@ -182,7 +182,7 @@ router.post('/userEdit', function (req, res, next) {
     if (req.body.SuperUser) {
         sql.SuperUser = req.body.SuperUser;
     }
-    console.log(`sql:${sql}, UserId:${UserId}`);
+    console.log(`sql:${JSON.stringify(sql)}, UserId:${UserId}`);
     mysqlQuery('UPDATE UserTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
         if (err) {
             console.log(err);
