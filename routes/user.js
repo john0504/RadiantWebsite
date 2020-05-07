@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
     }
     var mysqlQuery = req.mysqlQuery;
     var SearchAccount = "";
-    var sql = 'SELECT count(*) as count from AccountTbl';
+    var sql = 'SELECT count(*) as count from UserTbl';
     if (req.session.SuperUser == 1) {
 
     } else if (req.session.SuperUser == 2) {
@@ -37,12 +37,12 @@ router.get('/', function (req, res, next) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
         if (req.session.SuperUser == 1) {
-            sql = 'SELECT * FROM AccountTbl ';
+            sql = 'SELECT * FROM UserTbl ';
         } else if (req.session.SuperUser == 2) {
-            sql = 'SELECT * FROM AccountTbl WHERE SuperUser != 1';
+            sql = 'SELECT * FROM UserTbl WHERE SuperUser != 1';
         } else {
             var UserId = req.session.UserId;
-            sql = `SELECT * FROM AccountTbl WHERE Id = '${UserId}'`
+            sql = `SELECT * FROM UserTbl WHERE Id = '${UserId}'`
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -69,11 +69,11 @@ router.get('/search', function (req, res, next) {
     var mysqlQuery = req.mysqlQuery;
 
     if (req.session.SuperUser == 1 || req.session.SuperUser == 2) {
-        var sql = `SELECT count(*) as count from AccountTbl WHERE Account LIKE '%${SearchAccount}%'`;
+        var sql = `SELECT count(*) as count from UserTbl WHERE Account LIKE '%${SearchAccount}%'`;
         mysqlQuery(sql, function (err, acc) {
             var total = acc[0].count;
             totalPage = Math.ceil(total / linePerPage);
-            sql = `SELECT * FROM AccountTbl WHERE Account LIKE '%${SearchAccount}%'`
+            sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`
             sql += (` limit ${index * linePerPage},${linePerPage}`);
             mysqlQuery(sql, function (err, accounts) {
                 if (err) {
@@ -108,7 +108,7 @@ router.post('/userAdd', function (req, res, next) {
 
     // check Account exist
     var Account = req.body.Account;
-    mysqlQuery('SELECT Account FROM AccountTbl WHERE Account = ?', Account, function (err, accounts) {
+    mysqlQuery('SELECT Account FROM UserTbl WHERE Account = ?', Account, function (err, accounts) {
         if (err) {
             console.log(err);
         }
@@ -124,12 +124,11 @@ router.post('/userAdd', function (req, res, next) {
             var sql = {
                 Account: req.body.Account,
                 Password: req.body.Password,
-                Name: req.body.Name,
                 CreateDate: Date.now() / 1000
             };
 
             //console.log(sql);
-            mysqlQuery('INSERT INTO AccountTbl SET ?', sql, function (err, accounts) {
+            mysqlQuery('INSERT INTO UserTbl SET ?', sql, function (err, accounts) {
                 if (err) {
                     console.log(err);
                 }
@@ -149,7 +148,7 @@ router.get('/userEdit', function (req, res, next) {
 
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('SELECT * FROM AccountTbl WHERE Id = ?', UserId, function (err, accounts) {
+    mysqlQuery('SELECT * FROM UserTbl WHERE Id = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }
@@ -176,10 +175,6 @@ router.post('/userEdit', function (req, res, next) {
         sql.Password = req.body.Password;
     }
 
-    if (req.body.Name) {
-        sql.Name = req.body.Name;
-    }
-
     if (req.body.Enable) {
         sql.Enable = req.body.Enable;
     }
@@ -188,7 +183,7 @@ router.post('/userEdit', function (req, res, next) {
         sql.SuperUser = req.body.SuperUser;
     }
 
-    mysqlQuery('UPDATE AccountTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
+    mysqlQuery('UPDATE UserTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
         if (err) {
             console.log(err);
         }
@@ -223,7 +218,7 @@ router.get('/userDelete', function (req, res, next) {
     var UserId = req.query.UserId;
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('DELETE FROM AccountTbl WHERE Id = ?', UserId, function (err, accounts) {
+    mysqlQuery('DELETE FROM UserTbl WHERE Id = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }
