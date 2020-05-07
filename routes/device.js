@@ -59,7 +59,7 @@ router.get('/', function (req, res, next) {
         });
     });
 });
-
+/*
 router.get('/search', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
@@ -251,5 +251,5 @@ router.post('/deviceEdit', function (req, res, next) {
         res.redirect('/device');
     });
 });
-
+*/
 module.exports = router;
