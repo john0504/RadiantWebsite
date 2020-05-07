@@ -121,6 +121,15 @@ CREATE TABLE `DeviceTypeTbl` (
 
 LOCK TABLES `DeviceTypeTbl` WRITE;
 /*!40000 ALTER TABLE `DeviceTypeTbl` DISABLE KEYS */;
+INSERT INTO `DeviceTypeTbl` VALUES (1,'燈泡SC'),(2,'燈泡CX'),(3,'燈泡RGB'),(4,'燈泡RGBCX'),(5,'燈條SC'),(6,'燈條CX'),(7,'燈條RGB'),(8,'燈條RGBCX'),
+(9,'嵌燈SC'),(10,'嵌燈CX'),(11,'嵌燈RGB'),(12,'嵌燈RGBCX'),(13,'平板燈SC'),(14,'平板燈CX'),(15,'平板燈RGB'),(16,'平板燈RGBCX'),
+(17,'軌道燈SC'),(18,'軌道燈CX'),(19,'軌道燈RGB'),(20,'軌道燈RGBCX'),(97,'套裝組燈泡SC'),(98,'套裝組燈泡CX'),(99,'套裝組燈泡RGB'),(100,'套裝組燈泡RGBCX'),
+(101,'套裝組燈條SC'),(102,'套裝組燈條CX'),(103,'套裝組燈條RGB'),(104,'套裝組燈條RGBCX'),(105,'套裝組嵌燈SC'),(106,'套裝組嵌燈CX'),(107,'套裝組嵌燈RGB'),(108,'套裝組嵌燈RGBCX'),
+(65,'Smart driver SC'),(66,'Smart driver CX'),(67,'保留'),(68,'保留'),(69,'泛光燈SC'),(70,'泛光燈CX'),(71,'泛光燈RGB'),(72,'泛光燈RGBCX'),
+(73,'吸頂燈SC'),(74,'吸頂燈CX'),(75,'吸頂燈RGB'),(76,'吸頂燈RGBCX'),(77,'條形燈SC'),(78,'條形燈CX'),(79,'條形燈RGB'),(80,'條形燈RGBCX'),
+(81,'Relay繼電器'),(82,'Dimmer調光器'),(31,'Wall switch'),(32,'Pir'),(33,'Combo switch'),(34,'Scene switch'),(35,'Hcl_12'),(36,'Light sensor'),
+(37,'Dynamic scene(舊版)'),(38,'Repeater'),(39,'Dynamic scene(新版)'),(40,'Detector'),(41,'Socket(舊版)'),(42,'Fan control'),(43,'Hcl_24'),(44,'Photo cell Pir'),
+(45,'Switch direct'),(46,'Repeater newR'),(47,'Push-Dim'),(48,'Curtain'),(49,'Voice'),(50,'Switch direct 4-8'),(51,'Repeater new RTC'),(201,'Scene Socket');
 /*!40000 ALTER TABLE `DeviceTypeTbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
