@@ -52,13 +52,13 @@ DROP TABLE IF EXISTS `DeviceTbl`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DeviceTbl` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `UserId` int(11) DEFAULT NULL,
+  `UserId` int(11) NOT NULL DEFAULT 0,
   `Address` int(11) NOT NULL DEFAULT 0,
   `Info1` int(11) NOT NULL DEFAULT 0,
   `Info2` int(11) NOT NULL DEFAULT 0,
   `Info3` int(11) NOT NULL DEFAULT 0,
   `TypeId` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`UserId`,`Address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
