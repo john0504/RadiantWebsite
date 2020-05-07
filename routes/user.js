@@ -182,17 +182,13 @@ router.post('/userEdit', function (req, res, next) {
     if (req.body.SuperUser) {
         sql.SuperUser = req.body.SuperUser;
     }
-
+    console.log(`sql:${sql}, UserId:${UserId}`);
     mysqlQuery('UPDATE UserTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
         if (err) {
             console.log(err);
         }
-
-        res.locals.Account = req.session.Account;
-        res.setHeader('Content-Type', 'application/json');
         res.redirect('/user');
     });
-
 });
 
 
