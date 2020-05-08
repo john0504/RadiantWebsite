@@ -154,14 +154,8 @@ function updateGroup(userId, groupId, deviceAddr) {
         Address: deviceAddr,
         GroupId: groupId
     };
-    var updatesql = {
-        Info1: buffer[1],
-        Info2: buffer[2],
-        Info3: buffer[3],
-        TypeId: buffer[4]
-    };
-    var sql = "INSERT INTO GroupTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+    var sql = "INSERT INTO GroupTbl SET ?";
+    mysqlQuery(sql, [insertsql], function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);
             return;
