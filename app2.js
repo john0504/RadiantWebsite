@@ -12,6 +12,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var device = require('./routes/device');
 var user = require('./routes/user');
+var group = require('./routes/group');
 var radiant = require('./routes/radiant');
 
 var app = express();
@@ -76,6 +77,7 @@ app.use('/radiant', radiant);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/device', device);
+app.use('/group', group);
 app.use('/user', user);
 app.use('/.well-known/acme-challenge', ssl);
 
