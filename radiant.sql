@@ -78,9 +78,9 @@ DROP TABLE IF EXISTS `GroupTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `GroupTbl` (
-  `UserId` int(11) DEFAULT NULL,
-  `Address` int(11) NOT NULL DEFAULT 0,
-  `GroupId` int(11) NOT NULL DEFAULT 0,
+  `UserId` int(11) NOT NULL,
+  `Address` int(11) NOT NULL,
+  `GroupId` int(11) NOT NULL,
   PRIMARY KEY (`UserId`, `Address`, `GroupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -102,9 +102,9 @@ DROP TABLE IF EXISTS `SceneTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `SceneTbl` (
-  `UserId` int(11) DEFAULT NULL,
-  `Address` int(11) NOT NULL DEFAULT 0,
-  `SceneId` int(11) NOT NULL DEFAULT 0,
+  `UserId` int(11) NOT NULL,
+  `Address` int(11) NOT NULL,
+  `SceneId` int(11) NOT NULL,
   `ScenePage` int(11) NOT NULL DEFAULT 255,
   `Lum` int(11) NOT NULL DEFAULT 0,
   `RgbR` int(11) NOT NULL DEFAULT 0,
@@ -133,9 +133,9 @@ DROP TABLE IF EXISTS `ScheduleTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ScheduleTbl` (
-  `UserId` int(11) DEFAULT NULL,
-  `Address` int(11) NOT NULL DEFAULT 0,
-  `ScheduleId` int(11) NOT NULL DEFAULT 0,
+  `UserId` int(11) NOT NULL,
+  `Address` int(11) NOT NULL,
+  `ScheduleId` int(11) NOT NULL,
   `SchedulePage` int(11) NOT NULL DEFAULT 255,
   `ScheType` int(11) NOT NULL DEFAULT 0,
   `Month` int(11) NOT NULL DEFAULT 0,
