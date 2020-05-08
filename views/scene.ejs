@@ -11,38 +11,38 @@
             var SearchAccount = document.getElementsByName('SearchAccount')[0].value;
             var regex = /^([a-zA-Z0-9])+$/;
             if (SearchAccount.length == 0) {
-                window.location.href = "/user";
+                window.location.href = "/scene";
                 return true;
             }
             if (!regex.test(SearchAccount)) {
                 return false;
             }
-            window.location.href = "/user/search?SearchAccount=" + SearchAccount;
+            window.location.href = "/scene/search?SearchAccount=" + SearchAccount;
         }
-        function Edit(Id) {
-            window.location.href = "/user/userEdit?UserId=" + Id;
+        function Edit(UserId, Address, SceneId) {
+            window.location.href = `/scene/sceneEdit?UserId=${UserId}&Address=${Address}&SceneId=${SceneId}`;
         }
 
-        function Delete(Id) {
+        function Delete(UserId, Address, SceneId) {
             var rs = confirm('確定要刪除?');
             if (rs) {
-                window.location.href = "/user/userDelete?UserId=" + Id;
+                window.location.href = `/scene/sceneEdit?UserId=${UserId}&Address=${Address}&SceneId=${SceneId}`;
             }
         }
 
         function Next(index, SearchAccount) {
             if (SearchAccount != "") {
-                window.location.href = `/user/search?SearchAccount=${SearchAccount}&index=${++index}`;
+                window.location.href = `/scene/search?SearchAccount=${SearchAccount}&index=${++index}`;
             } else {
-                window.location.href = `/user?index=${++index}`;
+                window.location.href = `/scene?index=${++index}`;
             }
         }
 
         function Past(index, SearchAccount) {
             if (SearchAccount != "") {
-                window.location.href = `/user/search?SearchAccount=${SearchAccount}&index=${index - 1}`;
+                window.location.href = `/scene/search?SearchAccount=${SearchAccount}&index=${index - 1}`;
             } else {
-                window.location.href = `/user?index=${index - 1}`;
+                window.location.href = `/scene?index=${index - 1}`;
             }
         }
     </script>
@@ -62,18 +62,18 @@
     <!-- <img src="/img/logo.png" class="logo-left"> -->
     <table border="0" align="center">
         <tr>
-            <th><a href="/user">用戶</a></th>
+            <th><a href="/scene">用戶</a></th>
             <th><a href="/device">裝置</a></th>
             <th><a href="/group">群組</a></th>
             <th><a href="/scene">場景</a></th>
         </tr>
     </table>
-    <h1>用戶 - 列表</h1>
+    <h1>場景 - 列表</h1>
     <% if (locals.SuperUser == 1) { %>
     <div class="control">
-        <input class="btn" type='submit' value='新增' onclick="javascript: location.href='/user/add'">
+        <input class="btn" type='submit' value='新增' onclick="javascript: location.href='/scene/add'">
     </div>
-    <input type="text" name="SearchAccount" placeholder="搜尋帳號" value="<%= SearchAccount %>" />
+    <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= SearchAccount %>" />
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
     <% } %>
     <br>
@@ -91,10 +91,14 @@
     <table class="table">
         <tr>
             <th>編號</th>
-            <th>帳號</th>
-            <th>建立日期</th>
-            <th>狀態</th>
-            <th>後台權限</th>
+            <th>所有者</th>
+            <th>裝置位址</th>
+            <th>場景編號</th>
+            <th>照度</th>
+            <th>RGB-R</th>
+            <th>RGB-G</th>
+            <th>RGB-B</th>
+            <th>CT</th>
         </tr>
         <% for ( var i = 0 ; i < data.length ; i++){ %>
         <tr>
@@ -102,36 +106,35 @@
                 <%= linePerPage*index+(i+1) %>
             </td>
             <td>
-                <%= data[i].Account  %>
+                <%= data[i].Account %>
             </td>
             <td>
-                <% var date = new Date(data[i].CreateDate * 1000); %>
-                <%= date.getFullYear() + "-" 
-                    + (date.getMonth() + 1) + "-" 
-                    + date.getDate() + " " 
-                    + date.getHours() + ":" 
-                    + date.getMinutes() + ":" 
-                    + date.getSeconds()  %>
+                <%= data[i].Address %>
             </td>
             <td>
-                <% if(data[i].Enable > 0) { %>
-                啟用
-                <% } else { %>
-                禁用
-                <% } %>
+                <%= data[i].SceneId %>
             </td>
             <td>
-                <% if(data[i].SuperUser > 0) { %>
-                啟用
-                <% } else { %>
-                
-                <% } %>
+                <%= data[i].Lum %>
             </td>
             <td>
-                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].Id  %>');" />
+                <%= data[i].RgbR %>
+            </td>
+            <td>
+                <%= data[i].RgbG %>
+            </td>
+            <td>
+                <%= data[i].RgbB %>
+            </td>
+            <td>
+                <%= data[i].Ct %>
+            </td>
+            <td>
+                <input type="button" name="edit" value="修改" class="btn" 
+                    onclick="Edit('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].SceneId %>');" />
                 <% if (locals.SuperUser == 1) { %>
                 <input type="button" name="delete" value="刪除" class="btn"
-                    onclick="Delete('<%= data[i].Id  %>');" />
+                    onclick="Delete('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].SceneId %>');" />
                 <% } %>
             </td>
         </tr>

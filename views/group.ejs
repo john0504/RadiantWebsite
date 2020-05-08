@@ -20,13 +20,13 @@
             window.location.href = "/group/search?SearchAccount=" + SearchAccount;
         }
         function Edit(UserId, Address, GroupId) {
-            window.location.href = `/group/userEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
+            window.location.href = `/group/groupEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
         }
 
         function Delete(UserId, Address, GroupId) {
             var rs = confirm('確定要刪除?');
             if (rs) {
-                window.location.href = `/group/userEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
+                window.location.href = `/group/groupEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
             }
         }
 
@@ -62,9 +62,10 @@
     <!-- <img src="/img/logo.png" class="logo-left"> -->
     <table border="0" align="center">
         <tr>
-            <th><a href="/user">用戶</a></th>
+            <th><a href="/group">用戶</a></th>
             <th><a href="/device">裝置</a></th>
             <th><a href="/group">群組</a></th>
+            <th><a href="/scene">場景</a></th>
         </tr>
     </table>
     <h1>群組 - 列表</h1>
