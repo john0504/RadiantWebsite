@@ -161,6 +161,7 @@ function updateGroup(userId, groupId, deviceAddr) {
             return;
         }
     });
+    return;
 }
 
 function changeGroup(userId, groupList, deviceAddr) {
@@ -196,6 +197,7 @@ function updateScene(userId, sceneId, deviceAddr, scenePage) {
             return;
         }
     });
+    return;
 }
 
 function changeScene(userId, sceneList, deviceAddr, scenePage) {
@@ -239,6 +241,7 @@ function updateSceneInfo(userId, sceneId, deviceAddr, sceneInfo) {
             return;
         }
     });
+    return;
 }
 
 function deleteScene(userId, sceneId, deviceAddr) {
@@ -281,6 +284,7 @@ function updateSchedule(userId, scheId, deviceAddr, scheinfo) {
             return;
         }
     });
+    return;
 }
 
 function updateSchedulePage(userId, scheId, deviceAddr, schepage) {
@@ -300,6 +304,7 @@ function updateSchedulePage(userId, scheId, deviceAddr, schepage) {
             return;
         }
     });
+    return;
 }
 
 function deleteSchedule(userId, scheId, deviceAddr) {
@@ -330,6 +335,7 @@ function enableSchedule(userId, scheId, deviceAddr, enable) {
             return;
         }
     });
+    return;
 }
 
 function changeSchedule(userId, scheList, deviceAddr, schepage) {
