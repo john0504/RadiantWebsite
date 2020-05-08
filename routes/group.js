@@ -24,19 +24,18 @@ router.get('/', function (req, res, next) {
     }
     var mysqlQuery = req.mysqlQuery;
     var SearchAccount = "";
-    var sql = 'SELECT count(*) as count from GroupTbl';
+    var sql = 'SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id';
     if (req.session.SuperUser != 1) {
         var UserId = req.session.UserId;
-        sql += ` WHERE UserId = '${UserId}'`
+        sql += ` WHERE a.UserId = '${UserId}'`
     }
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        if (req.session.SuperUser == 1) {
-            sql = 'SELECT * FROM GroupTbl ';
-        } else {
+        sql = 'SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id';
+        if (req.session.SuperUser != 1) {      
             var UserId = req.session.UserId;
-            sql = `SELECT * FROM GroupTbl WHERE UserId = '${UserId}'`
+            sql += ` WHERE a.UserId = '${UserId}'`
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -63,27 +62,28 @@ router.get('/search', function (req, res, next) {
     var SearchAccount = req.query.SearchAccount;
     var mysqlQuery = req.mysqlQuery;
 
-    if (req.session.SuperUser == 1) {
-        var sql = `SELECT count(*) as count from GroupTbl WHERE Account LIKE '%${SearchAccount}%'`;
-        mysqlQuery(sql, function (err, acc) {
-            var total = acc[0].count;
-            totalPage = Math.ceil(total / linePerPage);
-            sql = `SELECT * FROM GroupTbl WHERE Account LIKE '%${SearchAccount}%'`
-            sql += (` limit ${index * linePerPage},${linePerPage}`);
-            mysqlQuery(sql, function (err, accounts) {
-                if (err) {
-                    console.log(err);
-                }
-                var data = accounts;
-
-                // use user.ejs
-                res.render('group', { title: 'Group Information', data: data, SearchAccount: SearchAccount,
-                 index: index, totalPage: totalPage, linePerPage: linePerPage });
-            });
-        });
-    } else {
+    if (req.session.SuperUser != 1) {        
         return;
     }
+    var sql = `SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id \
+                WHERE b.Account LIKE '%${SearchAccount}%'`;
+    mysqlQuery(sql, function (err, acc) {
+        var total = acc[0].count;
+        totalPage = Math.ceil(total / linePerPage);
+        sql = `SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id \
+                WHERE b.Account LIKE '%${SearchAccount}%'`
+        sql += (` limit ${index * linePerPage},${linePerPage}`);
+        mysqlQuery(sql, function (err, accounts) {
+            if (err) {
+                console.log(err);
+            }
+            var data = accounts;
+
+            // use user.ejs
+            res.render('group', { title: 'Group Information', data: data, SearchAccount: SearchAccount,
+                index: index, totalPage: totalPage, linePerPage: linePerPage });
+        });
+    }); 
 });
 /*
 // add page

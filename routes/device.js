@@ -75,8 +75,7 @@ router.get('/search', function (req, res, next) {
     var totalPage = 0;
     var mysqlQuery = req.mysqlQuery;
 
-    var sql = 'SELECT count(*) as count from DeviceTbl a left join UserTbl b on a.UserId = b.Id \
-                left join DeviceTypeTbl c on a.TypeId = c.Id';
+    var sql = 'SELECT count(*) as count from DeviceTbl a left join UserTbl b on a.UserId = b.Id';
     if (SearchAccount && SearchAccount != "") {   
         sql += (` WHERE b.Account LIKE '%${SearchAccount}%'`);
     }

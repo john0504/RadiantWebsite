@@ -62,26 +62,25 @@ router.get('/search', function (req, res, next) {
     var SearchAccount = req.query.SearchAccount;
     var mysqlQuery = req.mysqlQuery;
 
-    if (req.session.SuperUser == 1) {
-        var sql = `SELECT count(*) as count from UserTbl WHERE Account LIKE '%${SearchAccount}%'`;
-        mysqlQuery(sql, function (err, acc) {
-            var total = acc[0].count;
-            totalPage = Math.ceil(total / linePerPage);
-            sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`
-            sql += (` limit ${index * linePerPage},${linePerPage}`);
-            mysqlQuery(sql, function (err, accounts) {
-                if (err) {
-                    console.log(err);
-                }
-                var data = accounts;
-
-                // use user.ejs
-                res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount, index: index, totalPage: totalPage, linePerPage: linePerPage });
-            });
-        });
-    } else {
+    if (req.session.SuperUser != 1) {
         return;
     }
+    var sql = `SELECT count(*) as count from UserTbl WHERE Account LIKE '%${SearchAccount}%'`;
+    mysqlQuery(sql, function (err, acc) {
+        var total = acc[0].count;
+        totalPage = Math.ceil(total / linePerPage);
+        sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`
+        sql += (` limit ${index * linePerPage},${linePerPage}`);
+        mysqlQuery(sql, function (err, accounts) {
+            if (err) {
+                console.log(err);
+            }
+            var data = accounts;
+
+            // use user.ejs
+            res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount, index: index, totalPage: totalPage, linePerPage: linePerPage });
+        });
+    });  
 });
 
 // add page
