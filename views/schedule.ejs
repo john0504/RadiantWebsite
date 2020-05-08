@@ -11,38 +11,38 @@
             var SearchAccount = document.getElementsByName('SearchAccount')[0].value;
             var regex = /^([a-zA-Z0-9])+$/;
             if (SearchAccount.length == 0) {
-                window.location.href = "/group";
+                window.location.href = "/schedule";
                 return true;
             }
             if (!regex.test(SearchAccount)) {
                 return false;
             }
-            window.location.href = "/group/search?SearchAccount=" + SearchAccount;
+            window.location.href = "/schedule/search?SearchAccount=" + SearchAccount;
         }
-        function Edit(UserId, Address, GroupId) {
-            window.location.href = `/group/groupEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
+        function Edit(UserId, Address, ScheduleId) {
+            window.location.href = `/schedule/scheduleEdit?UserId=${UserId}&Address=${Address}&ScheduleId=${ScheduleId}`;
         }
 
-        function Delete(UserId, Address, GroupId) {
+        function Delete(UserId, Address, ScheduleId) {
             var rs = confirm('確定要刪除?');
             if (rs) {
-                window.location.href = `/group/groupEdit?UserId=${UserId}&Address=${Address}&GroupId=${GroupId}`;
+                window.location.href = `/schedule/scheduleEdit?UserId=${UserId}&Address=${Address}&ScheduleId=${ScheduleId}`;
             }
         }
 
         function Next(index, SearchAccount) {
             if (SearchAccount != "") {
-                window.location.href = `/group/search?SearchAccount=${SearchAccount}&index=${++index}`;
+                window.location.href = `/schedule/search?SearchAccount=${SearchAccount}&index=${++index}`;
             } else {
-                window.location.href = `/group?index=${++index}`;
+                window.location.href = `/schedule?index=${++index}`;
             }
         }
 
         function Past(index, SearchAccount) {
             if (SearchAccount != "") {
-                window.location.href = `/group/search?SearchAccount=${SearchAccount}&index=${index - 1}`;
+                window.location.href = `/schedule/search?SearchAccount=${SearchAccount}&index=${index - 1}`;
             } else {
-                window.location.href = `/group?index=${index - 1}`;
+                window.location.href = `/schedule?index=${index - 1}`;
             }
         }
     </script>
@@ -62,17 +62,17 @@
     <!-- <img src="/img/logo.png" class="logo-left"> -->
     <table border="0" align="center">
         <tr>
-            <th><a href="/group">用戶</a></th>
+            <th><a href="/schedule">用戶</a></th>
             <th><a href="/device">裝置</a></th>
             <th><a href="/group">群組</a></th>
             <th><a href="/scene">場景</a></th>
             <th><a href="/schedule">排程</a></th>
         </tr>
     </table>
-    <h1>群組 - 列表</h1>
+    <h1>排程 - 列表</h1>
     <% if (locals.SuperUser == 1) { %>
     <div class="control">
-        <input class="btn" type='submit' value='新增' onclick="javascript: location.href='/group/add'">
+        <input class="btn" type='submit' value='新增' onclick="javascript: location.href='/schedule/add'">
     </div>
     <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= SearchAccount %>" />
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
@@ -94,7 +94,12 @@
             <th>編號</th>
             <th>所有者</th>
             <th>裝置位址</th>
-            <th>群組編號</th>
+            <th>排程編號</th>
+            <th>執行</th>
+            <th>類型</th>
+            <th>時間</th>
+            <th>場景編號</th>
+            <th>狀態</th>
         </tr>
         <% for ( var i = 0 ; i < data.length ; i++){ %>
         <tr>
@@ -108,14 +113,63 @@
                 <%= data[i].Address %>
             </td>
             <td>
-                <%= data[i].GroupId %>
+                <%= data[i].ScheduleId %>
+            </td>
+            <td>
+                <% if (data[i].ScheType & 0x0F == 0) { %>
+                    Off
+                <% } else if (data[i].ScheType & 0x0F == 1) { %>
+                    On
+                <% } else if (data[i].ScheType & 0x0F == 2) { %>
+                    Scene
+                <% } %> 
+            </td>
+            <td>
+                <% if ((data[i].ScheType >> 4) & 0x07 == 0) { %>
+                    單次
+                <% } else if ((data[i].ScheType >> 4) & 0x07 == 1) { %>
+                    重複
+                <% } %> 
+            </td>
+            <td>
+                <% if ((data[i].ScheType >> 4) & 0x07 == 0) { %>
+                    <%= data[i].Month %>/<%= data[i].Day %> <%= data[i].Hour %>:<%= data[i].Monute %>:<%= data[i].Second %>
+                <% } else if ((data[i].ScheType >> 4) & 0x07 == 1) { %>
+                    每週
+                    <% if (data[i].Day & 0x01 == 1) { %>
+                        日
+                    <% } else if ((data[i].Day >> 1) & 0x01 == 1) { %>
+                        一
+                    <% } else if ((data[i].Day >> 2) & 0x01 == 1) { %>
+                        二
+                    <% } else if ((data[i].Day >> 3) & 0x01 == 1) { %>
+                        三
+                    <% } else if ((data[i].Day >> 4) & 0x01 == 1) { %>
+                        四
+                    <% } else if ((data[i].Day >> 5) & 0x01 == 1) { %>
+                        五
+                    <% } else if ((data[i].Day >> 6) & 0x01 == 1) { %>
+                        六
+                    <% } %> 
+                    的<%= data[i].Hour %>:<%= data[i].Monute %>:<%= data[i].Second %>
+                <% } %> 
+            </td>
+            <td>
+                <%= data[i].SceneId %>
+            </td>
+            <td>
+                <% if ((data[i].ScheType >> 7) & 0x01 == 0) { %>
+                    啟用
+                <% } else { %>
+                    禁用
+                <% } %> 
             </td>
             <td>
                 <input type="button" name="edit" value="修改" class="btn" 
-                    onclick="Edit('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].GroupId %>');" />
+                    onclick="Edit('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].ScheduleId %>');" />
                 <% if (locals.SuperUser == 1) { %>
                 <input type="button" name="delete" value="刪除" class="btn"
-                    onclick="Delete('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].GroupId %>');" />
+                    onclick="Delete('<%= data[i].UserId %>','<%= data[i].Address %>','<%= data[i].ScheduleId %>');" />
                 <% } %>
             </td>
         </tr>
