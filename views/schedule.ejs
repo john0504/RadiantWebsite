@@ -137,21 +137,13 @@
                     <% if (data[i].Hour < 10) { %>0<% } %><%= data[i].Hour %>:<% if (data[i].Minute < 10) { %>0<% } %><%= data[i].Minute %>:<% if (data[i].Second < 10) { %>0<% } %><%= data[i].Second %>
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     每週
-                    <% if ((data[i].Day & 0x01) == 1) { %>
-                        日
-                    <% } else if (((data[i].Day >> 1) & 0x01) == 1) { %>
-                        一
-                    <% } else if (((data[i].Day >> 2) & 0x01) == 1) { %>
-                        二
-                    <% } else if (((data[i].Day >> 3) & 0x01) == 1) { %>
-                        三
-                    <% } else if (((data[i].Day >> 4) & 0x01) == 1) { %>
-                        四
-                    <% } else if (((data[i].Day >> 5) & 0x01) == 1) { %>
-                        五
-                    <% } else if (((data[i].Day >> 6) & 0x01) == 1) { %>
-                        六
-                    <% } %>
+                    <% if ((data[i].Day & 0x01) == 1) { %>日<% } %>
+                    <% if (((data[i].Day >> 1) & 0x01) == 1) { %>一<% } %>                        
+                    <% if (((data[i].Day >> 2) & 0x01) == 1) { %>二<% } %>
+                    <% if (((data[i].Day >> 3) & 0x01) == 1) { %>三<% } %>
+                    <% if (((data[i].Day >> 4) & 0x01) == 1) { %>四<% } %>
+                    <% if (((data[i].Day >> 5) & 0x01) == 1) { %>五<% } %>
+                    <% if (((data[i].Day >> 6) & 0x01) == 1) { %>六<% } %>
                     的<% if (data[i].Hour < 10) { %>0<% } %><%= data[i].Hour %>:<% if (data[i].Minute < 10) { %>0<% } %><%= data[i].Minute %>:<% if (data[i].Second < 10) { %>0<% } %><%= data[i].Second %>
                 <% } %> 
             </td>
