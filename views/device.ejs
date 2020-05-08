@@ -8,38 +8,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script>
         function Search() {
-            var Address = document.getElementsByName('SearchAddress')[0].value;
             var Account = document.getElementsByName('SearchAccount')[0].value;
             if (Address.length == 0 && Account.length == 0) {
                 window.location.href = "/device";
                 return true;
             }
-            var regex = /^([0-9])+$/;
-            if (Address.length != 0 && !regex.test(Address)) {
-                return false;
-            }
             regex = /^([A-Za-z0-9\@\.])+$/;
             if (Account.length != 0 && !regex.test(Account)) {
                 return false;
             }
-            window.location.href = `/device/search?Address=${Address}&Account=${Account}`;
+            window.location.href = `/device/search?Account=${Account}`;
         }
 
-        function SearchAddress() {
-            var DevNo = document.getElementsByName('SearchAddress')[0].value;
-            if (DevNo.length == 0) {
-                window.location.href = "/device";
-                return true;
-            }
-            var regex = /^([0-9])+$/;
-            if (Address.length != 0 && !regex.test(Address)) {
-                return false;
-            }
-            window.location.href = `/device/search?Address=${Address}`;
-        }
-
-        function Order(index, Address, UserId, Account, field) {
-            window.location.href = `/device/search?Address=${Address}&UserId=${UserId}&Account=${Account}&order=${field}&index=${index}`;
+        function Order(index, UserId, Account, field) {
+            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index}`;
         }
 
         function History(Address, UserId) {
@@ -50,17 +32,17 @@
             window.location.href = `/device/deviceEdit?Address=${Address}&UserId=${UserId}`;
         }
 
-        function Next(index, Address, UserId, Account, field) {
-            window.location.href = `/device/search?Address=${Address}&Account=${Account}&order=${field}&index=${++index}`;
+        function Next(index, UserId, Account, field) {
+            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${++index}`;
         }
 
-        function Past(index, Address, UserId, Account, field) {
-            window.location.href = `/device/search?Address=${Address}&Account=${Account}&order=${field}&index=${index - 1}`;
+        function Past(index, UserId, Account, field) {
+            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index - 1}`;
         }
 
-        function Go(Address, Account, UserId, field) {
+        function Go(Account, UserId, field) {
             var index = document.getElementsByName('pageindex')[0].value - 1;
-            window.location.href = `/device/search?Address=${Address}&Account=${Account}&order=${field}&index=${index}`;
+            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index}`;
         }
     </script>
 </head>
@@ -84,25 +66,21 @@
         </tr>
     </table>
     <h1>裝置 - 列表</h1>
-    
-    <input type="text" name="SearchAddress" placeholder="搜尋裝置位址" value="<%= Address %>" />
     <% if (locals.SuperUser == 1) { %>
     <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= Account %>" />
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
-    <% } else { %>
-    <input type="button" name="search" value="搜尋" class="btn" onclick="SearchAddress();" />
     <% } %>
     <br>
     <% if(index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
-        onclick="Past('<%= index %>','<%= Address %>','<%= Account %>','<%= order %>');" />
+        onclick="Past('<%= index %>','<%= Account %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
     <%= index+1  %>/<%= totalPage  %>
     <% if(index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
-        onclick="Next('<%= index %>','<%= Address %>','<%= Account %>','<%= order %>');" />
+        onclick="Next('<%= index %>','<%= Account %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
     <% } %>
@@ -112,25 +90,25 @@
             <th>所有者
                 <% if(order == "b.Account asc") { %>
                 <input type="button" name="order" value="▼"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','b.Account desc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','b.Account desc');" />
                 <% } else if (order == "b.Account desc"){ %>
                 <input type="button" name="order" value="▲"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','b.Account asc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','b.Account asc');" />
                 <% } else { %>
                 <input type="button" name="order" value="▽"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','b.Account asc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','b.Account asc');" />
                 <% } %>
             </th>
             <th>位址
                 <% if(order == "a.Address asc") { %>
                 <input type="button" name="order" value="▼"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','a.Address desc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','a.Address desc');" />
                 <% } else if (order == "a.Address desc"){ %>
                 <input type="button" name="order" value="▲"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','a.Address asc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','a.Address asc');" />
                 <% } else { %>
                 <input type="button" name="order" value="▽"
-                    onclick="Order('<%= index %>','<%= Address %>','<%= Account %>','a.Address asc');" />
+                    onclick="Order('<%= index %>','<%= Account %>','a.Address asc');" />
                 <% } %>
             </th>
             <th>類型</th>
@@ -153,7 +131,11 @@
                 <%= data[i].Name %>
             </td>
             <td>
-                <%= data[i].Info1 %>
+                <% if (data[i].Info1 == 0) { %>
+                    離線
+                <% } else { %>
+                    上線
+                <% } %>
             </td>
             <td>
                 <%= data[i].Info2 %>
@@ -164,28 +146,29 @@
             <td>
                 <input type="button" name="history" value="紀錄" class="btn"
                     onclick="History('<%= data[i].Address %>, <%= data[i].UserId %>');" />                
-                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].Address %>, <%= data[i].UserId %>');" />
+                <input type="button" name="edit" value="修改" class="btn" 
+                    onclick="Edit('<%= data[i].Address %>, <%= data[i].UserId %>');" />
             </td>
         </tr>
         <% } %>
     </table>
     <% if(index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
-        onclick="Past('<%= index %>','<%= Address %>','<%= Account %>','<%= order %>');" />
+        onclick="Past('<%= index %>','<%= Account %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
     <%= index+1  %>/<%= totalPage  %>
     <% if(index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
-        onclick="Next('<%= index %>','<%= Address %>','<%= Account %>','<%= order %>');" />
+        onclick="Next('<%= index %>','<%= Account %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
     <% } %>
     <br>
     <input type="number" name="pageindex" placeholder="輸入頁碼" value="<%= index  + 1 %>" />
     <input type="button" name="search" value="前往" class="btn"
-        onclick="Go('<%= Address %>','<%= Account %>','<%= order %>');" />
+        onclick="Go('<%= Account %>','<%= order %>');" />
 </body>
 
 </html>

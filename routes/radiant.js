@@ -2,6 +2,7 @@ var express = require('express'),
     router = express.Router();
 
 var LocalSN = 0;
+var mysqlQuery;
 
 const VendorId = [0x11, 0x02];
 
@@ -123,10 +124,259 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
     return buffer;
 }
 
+function updateDevice(userId, buffer) {
+    var insertsql = {
+        UserId: userId,
+        Address: buffer[0],
+        Info1: buffer[1],
+        Info2: buffer[2],
+        Info3: buffer[3],
+        TypeId: buffer[4]
+    };
+    var updatesql = {
+        Info1: buffer[1],
+        Info2: buffer[2],
+        Info3: buffer[3],
+        TypeId: buffer[4]
+    };
+    var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);           
+        }
+    });
+    return;
+}
+
+function updateGroup(userId, groupId, deviceAddr) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        GroupId: groupId
+    };
+    var updatesql = {
+        Info1: buffer[1],
+        Info2: buffer[2],
+        Info3: buffer[3],
+        TypeId: buffer[4]
+    };
+    var sql = "INSERT INTO GroupTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function changeGroup(userId, groupList, deviceAddr) {
+    var deletesql = {
+        UserId: userId,
+        Address: deviceAddr
+    };
+    mysqlQuery('DELETE FROM GroupTbl WHERE ?', deletesql, function (err, result) {
+        if (err) {
+            console.log('[DELETE ERROR] - ', err.message);
+            return;
+        }
+        groupList.forEach(groupId => {
+            if (groupId != 0xFF) {
+                updateGroup(userId, groupId, deviceAddr);
+            }
+        });
+    });
+    return; 
+}
+
+function updateScene(userId, sceneId, deviceAddr, scenePage) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        SceneId: sceneId,
+        ScenePage: scenePage
+    };
+    var updatesql = {
+        ScenePage: scenePage
+    };
+    var sql = "INSERT INTO SceneTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function changeScene(userId, sceneList, deviceAddr, scenePage) {
+    var deletesql = {
+        UserId: userId,
+        Address: deviceAddr,
+        ScenePage: scenePage
+    };
+    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+        if (err) {
+            console.log('[DELETE ERROR] - ', err.message);
+            return;
+        }
+        sceneList.forEach(sceneId => {
+            if (sceneId != 0x00) {
+                updateScene(userId, sceneId, deviceAddr, scenePage);
+            }
+        });
+    });
+    return; 
+}
+
+function updateSceneInfo(userId, sceneId, deviceAddr, sceneInfo) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        SceneId: sceneId,
+        Lum: sceneInfo[0],
+        RgbR: sceneInfo[1],
+        RgbG: sceneInfo[2],
+        RgbB: sceneInfo[3],
+        Ct: sceneInfo[4]
+    };
+    var updatesql = {
+        Lum: sceneInfo[0],
+        RgbR: sceneInfo[1],
+        RgbG: sceneInfo[2],
+        RgbB: sceneInfo[3],
+        Ct: sceneInfo[4]
+    };
+    var sql = "INSERT INTO SceneTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function deleteScene(userId, sceneId, deviceAddr) {
+    var deletesql = {
+        UserId: userId,
+        Address: deviceAddr,
+        SceneId: sceneId
+    };
+    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+        if (err) {
+            console.log('[DELETE ERROR] - ', err.message);
+            return;
+        }
+    });
+    return; 
+}
+
+function updateSchedule(userId, scheId, deviceAddr, scheinfo) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        ScheduleId: scheId,
+        ScheType: scheinfo[0],
+        Month: scheinfo[1],
+        Day: scheinfo[2],
+        Hour: scheinfo[3],
+        Minute: scheinfo[4],
+        Second: scheinfo[5],
+        SceneId: scheinfo[6]
+    };
+    var updatesql = {
+        ScheType: scheinfo[0],
+        Month: scheinfo[1],
+        Day: scheinfo[2],
+        Hour: scheinfo[3],
+        Minute: scheinfo[4],
+        Second: scheinfo[5],
+        SceneId: scheinfo[6]
+    };
+    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function updateSchedulePage(userId, scheId, deviceAddr, schepage) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        ScheduleId: scheId,
+        SchedulePage: schepage
+    };
+    var updatesql = {
+        SchedulePage: schepage
+    };
+    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function deleteSchedule(userId, scheId, deviceAddr) {
+    var deletesql = {
+        UserId: userId,
+        Address: deviceAddr,
+        ScheduleId: scheId
+    };
+    mysqlQuery('DELETE FROM ScheduleTbl WHERE ?', deletesql, function (err, result) {
+        if (err) {
+            console.log('[DELETE ERROR] - ', err.message);
+            return;
+        }
+    });
+    return; 
+}
+
+function enableSchedule(userId, scheId, deviceAddr, enable) {
+    var insertsql = {
+        UserId: userId,
+        Address: deviceAddr,
+        ScheduleId: scheId,
+        Enable: enable
+    };
+    var updatesql = {        
+        Enable: enable
+    };
+    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+            return;
+        }
+    });
+}
+
+function changeSchedule(userId, scheList, deviceAddr, schepage) {
+    var deletesql = {
+        UserId: userId,
+        Address: deviceAddr,
+        SchedulePage: schepage
+    };
+    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+        if (err) {
+            console.log('[DELETE ERROR] - ', err.message);
+            return;
+        }
+        scheList.forEach(sceneId => {
+            if (scheId != 0x00) {
+                updateSchedulePage(userId, sceneId, deviceAddr, schepage);
+            }
+        });
+    });
+    return; 
+}
+
 router.post('/response', function (req, res) {
-    var mysqlQuery = req.mysqlQuery;
+    mysqlQuery = req.mysqlQuery;
     console.log('response:' + JSON.stringify(req.body['rx']));
-    var UserId = req.body['UserId'];
+    var userId = req.body['UserId'];
     var rx = req.body['rx'];
     var sequenceNo = [rx[0], rx[1], rx[2]];
     var sourceAddr = [rx[3], rx[4]];
@@ -135,49 +385,9 @@ router.post('/response', function (req, res) {
     var vendorId = [rx[8], rx[9]];
     switch(cmdNo) {
         case CMD_REPORT_DATA:
-            var insertsql = {
-                UserId: UserId,
-                Address: rx[10],
-                Info1: rx[11],
-                Info2: rx[12],
-                Info3: rx[13],
-                TypeId: rx[14]
-            };
-            var updatesql = {
-                Info1: rx[11],
-                Info2: rx[12],
-                Info3: rx[13],
-                TypeId: rx[14]
-            };
-            var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-            mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-                if (err) {
-                    console.log('[INSERT ERROR] - ', err.message);
-                    return;
-                }
-            });
+            updateDevice(userId, [rx[10], rx[11], rx[12], rx[13], rx[14]]);
             if (rx[15] != 0x00) {
-                var insertsql = {
-                    UserId: UserId,
-                    Address: rx[15],
-                    Info1: rx[16],
-                    Info2: rx[17],
-                    Info3: rx[18],
-                    TypeId: rx[19]
-                };
-                var updatesql = {
-                    Info1: rx[16],
-                    Info2: rx[17],
-                    Info3: rx[18],
-                    TypeId: rx[19]
-                };
-                var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-                mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-                    if (err) {
-                        console.log('[INSERT ERROR] - ', err.message);
-                        return;
-                    }
-                });
+                updateDevice(userId, [rx[15], rx[16], rx[17], rx[18], rx[19]]);
             }
             break;
         case CMD_CHANGE_ADDR_RES:
@@ -185,24 +395,29 @@ router.post('/response', function (req, res) {
             break;
         case CMD_GROUP_RES:
             var groupList = [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18], rx[19]];
+            changeGroup(userId, groupList, sourceAddr[0]);                     
             break;
         case CMD_SCENE_INFO_RES:
             var scenepage = rx[19];
             if (scenepage == SUBCMD_PAGE1 || scenepage == SUBCMD_PAGE2) {
                 var sceneList =  [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
+                changeScene(userId, sceneList, sourceAddr[0], scenepage);
             } else {
                 var sceneId =  rx[10];            
                 var sceneInfo = [rx[11], rx[12], rx[13], rx[14], rx[15]];
+                updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
             }     
             break;
         case CMD_SCHE_INFO_RES:
-            var scenepage = rx[19];
-            if (scenepage == SUBCMD_PAGE1 || scenepage == SUBCMD_PAGE2) {
+            var schepage = rx[19];
+            if (schepage == SUBCMD_PAGE1 || schepage == SUBCMD_PAGE2) {
                 var scheList = [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
+                changeSchedule(userId, scheList, sourceAddr[0], schepage);
             } else {
                 var scheflag = rx[10]
-                var sceneId =  rx[11];            
-                scheinfo = [rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18]];
+                var scheId =  rx[11];            
+                var scheinfo = [rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18]];
+                updateSchedule(userId, scheId, sourceAddr[0], scheinfo);
             }
             break;
         case CMD_GET_TIME_RES:
@@ -217,21 +432,27 @@ router.post('/response', function (req, res) {
             var res = [rx[10], rx[11]];
             if (res[0] == 0x00 && res[1] == SUBCMD_ADD_SCENE_RES) {
                 var sceneId =  rx[12];
-                var sceneInfo = [rx[13], rx[14], rx[15], rx[16], rx[17]];            
+                var sceneInfo = [rx[13], rx[14], rx[15], rx[16], rx[17]];
+                updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
             } else if (res[0] == 0x00 && res[1] == SUBCMD_DEL_SCENE_RES) {
                 var sceneId =  rx[12];
+                deleteScene(userId, sceneId, sourceAddr[0]);
             } else if (res[0] == 0x00 && res[1] == SUBCMD_SCHE_RES) {
                 var scheflag = rx[12]; 
                 var scheId = rx[13];
                 switch(scheflag) {
                     case SUBCMD_ADD_SCHE:
                         var scheinfo = [rx[14], rx[15], rx[16], rx[17], rx[18], 0x00, rx[19]];
+                        updateSchedule(userId, scheId, sourceAddr[0], scheinfo);
                         break;
                     case SUBCMD_DEL_SCHE:
+                        deleteSchedule(userId, scheId, sourceAddr[0]);
                         break;
                     case SUBCMD_ENABLE_SCHE:
+                        enableSchedule(userId, scheId, sourceAddr[0], 0x01);
                         break;
                     case SUBCMD_DISABLE_SCHE:
+                        enableSchedule(userId, scheId, sourceAddr[0], 0x00);
                         break;
                 }
             }
@@ -245,7 +466,7 @@ router.post('/response', function (req, res) {
                     }
                     break;
                 case SUBCMD_PAIR:
-                    var pairStatus = rx[11];
+                    var pairStatus = rx[11]; // 0: fail, 1: success
                     var pairInfo = [rx[12], rx[13], rx[14]];
                     break;
                 case SUBCMD_GET_DATA:

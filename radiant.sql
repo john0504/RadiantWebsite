@@ -78,11 +78,10 @@ DROP TABLE IF EXISTS `GroupTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `GroupTbl` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` int(11) DEFAULT NULL,
   `Address` int(11) NOT NULL DEFAULT 0,
   `GroupId` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`UserId`, `Address`, `GroupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,17 +102,17 @@ DROP TABLE IF EXISTS `SceneTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `SceneTbl` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` int(11) DEFAULT NULL,
   `Address` int(11) NOT NULL DEFAULT 0,
   `SceneId` int(11) NOT NULL DEFAULT 0,
+  `ScenePage` int(11) NOT NULL DEFAULT 255,
   `Lum` int(11) NOT NULL DEFAULT 0,
   `RgbR` int(11) NOT NULL DEFAULT 0,
   `RgbG` int(11) NOT NULL DEFAULT 0,
   `RgbB` int(11) NOT NULL DEFAULT 0,
   `Ct` int(11) NOT NULL DEFAULT 0,
   `Enable` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`UserId`, `Address`, `SceneId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,10 +133,10 @@ DROP TABLE IF EXISTS `ScheduleTbl`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ScheduleTbl` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` int(11) DEFAULT NULL,
   `Address` int(11) NOT NULL DEFAULT 0,
   `ScheduleId` int(11) NOT NULL DEFAULT 0,
+  `SchedulePage` int(11) NOT NULL DEFAULT 255,
   `ScheType` int(11) NOT NULL DEFAULT 0,
   `Month` int(11) NOT NULL DEFAULT 0,
   `Day` int(11) NOT NULL DEFAULT 0,
@@ -146,7 +145,7 @@ CREATE TABLE `ScheduleTbl` (
   `Second` int(11) NOT NULL DEFAULT 0,
   `SceneId` int(11) NOT NULL DEFAULT 0,
   `Enable` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`UserId`, `Address`, `ScheduleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
