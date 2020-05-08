@@ -45,6 +45,21 @@
                 window.location.href = `/schedule?index=${index - 1}`;
             }
         }
+        function getTimeString(hour, minute, second) {
+            var Hour = `${hour}`;
+            if (hour < 10) {
+                Hour = `0${hour}`;
+            }
+            var Minute = `${minute}`;
+            if (minute < 10) {
+                Minute = `0${minute}`;
+            }
+            var Second = `${second}`;
+            if (second < 10) {
+                Minute = `0${second}`;
+            }
+            return `${Hour}:${Minute}:${Second}`;
+        }
     </script>
 </head>
 
@@ -133,7 +148,7 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    <%= data[i].Month %>/<%= data[i].Day %> <%= data[i].Hour %>:<%= data[i].Minute %>:<%= data[i].Second %>
+                    <%= data[i].Month %>/<%= data[i].Day %> <%= getTimeString(data[i].Hour, data[i].Minute, data[i].Second) %>
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     每週
                     <% if ((data[i].Day & 0x01) == 1) { %>
