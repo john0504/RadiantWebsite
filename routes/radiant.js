@@ -170,11 +170,8 @@ function updateGroup(userId, groupId, deviceAddr) {
 }
 
 function changeGroup(userId, groupList, deviceAddr) {
-    var deletesql = {
-        UserId: userId,
-        Address: deviceAddr
-    };
-    mysqlQuery('DELETE FROM GroupTbl WHERE ?', deletesql, function (err, result) {
+    mysqlQuery('DELETE FROM GroupTbl WHERE UserId = ? AND Address = ?', 
+    [userId, deviceAddr], function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
             return;
@@ -208,12 +205,8 @@ function updateScene(userId, sceneId, deviceAddr, scenePage) {
 }
 
 function changeScene(userId, sceneList, deviceAddr, scenePage) {
-    var deletesql = {
-        UserId: userId,
-        Address: deviceAddr,
-        ScenePage: scenePage
-    };
-    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+    mysqlQuery('DELETE FROM SceneTbl WHERE UserId = ? AND Address = ? AND ScenePage = ?',
+    [userId, deviceAddr, scenePage], function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
             return;
@@ -255,12 +248,8 @@ function updateSceneInfo(userId, sceneId, deviceAddr, sceneInfo) {
 }
 
 function deleteScene(userId, sceneId, deviceAddr) {
-    var deletesql = {
-        UserId: userId,
-        Address: deviceAddr,
-        SceneId: sceneId
-    };
-    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+    mysqlQuery('DELETE FROM SceneTbl WHERE UserId = ? AND Address = ? AND SceneId = ?', 
+    [userId, deviceAddr, sceneId], function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
             return;
@@ -320,12 +309,8 @@ function updateSchedulePage(userId, scheId, deviceAddr, schepage) {
 }
 
 function deleteSchedule(userId, scheId, deviceAddr) {
-    var deletesql = {
-        UserId: userId,
-        Address: deviceAddr,
-        ScheduleId: scheId
-    };
-    mysqlQuery('DELETE FROM ScheduleTbl WHERE ?', deletesql, function (err, result) {
+    mysqlQuery('DELETE FROM ScheduleTbl WHERE UserId = ? AND Address = ? AND ScheduleId = ?', 
+    [userId, deviceAddr, scheId], function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
             return;
@@ -354,12 +339,8 @@ function enableSchedule(userId, scheId, deviceAddr, enable) {
 }
 
 function changeSchedule(userId, scheList, deviceAddr, schepage) {
-    var deletesql = {
-        UserId: userId,
-        Address: deviceAddr,
-        SchedulePage: schepage
-    };
-    mysqlQuery('DELETE FROM SceneTbl WHERE ?', deletesql, function (err, result) {
+    mysqlQuery('DELETE FROM SceneTbl WHERE UserId = ? AND Address = ? AND SchedulePage = ?', 
+    [userId, deviceAddr, schepage], function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
             return;
