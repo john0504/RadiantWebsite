@@ -24,19 +24,19 @@ router.get('/', function (req, res, next) {
     }
     var mysqlQuery = req.mysqlQuery;
     var SearchAccount = "";
-    var sql = 'SELECT count(*) as count from UserTbl';
+    var sql = 'SELECT count(*) as count from GroupTbl';
     if (req.session.SuperUser != 1) {
         var UserId = req.session.UserId;
-        sql += ` WHERE Id = '${UserId}'`
+        sql += ` WHERE UserId = '${UserId}'`
     }
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
         if (req.session.SuperUser == 1) {
-            sql = 'SELECT * FROM UserTbl ';
+            sql = 'SELECT * FROM GroupTbl ';
         } else {
             var UserId = req.session.UserId;
-            sql = `SELECT * FROM UserTbl WHERE Id = '${UserId}'`
+            sql = `SELECT * FROM GroupTbl WHERE UserId = '${UserId}'`
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -46,7 +46,8 @@ router.get('/', function (req, res, next) {
             var data = accounts;
 
             // use user.ejs
-            res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount, index: index, totalPage: totalPage, linePerPage: linePerPage });
+            res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount,
+             index: index, totalPage: totalPage, linePerPage: linePerPage });
         });
     });
 });
@@ -63,11 +64,11 @@ router.get('/search', function (req, res, next) {
     var mysqlQuery = req.mysqlQuery;
 
     if (req.session.SuperUser == 1) {
-        var sql = `SELECT count(*) as count from UserTbl WHERE Account LIKE '%${SearchAccount}%'`;
+        var sql = `SELECT count(*) as count from GroupTbl WHERE Account LIKE '%${SearchAccount}%'`;
         mysqlQuery(sql, function (err, acc) {
             var total = acc[0].count;
             totalPage = Math.ceil(total / linePerPage);
-            sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`
+            sql = `SELECT * FROM GroupTbl WHERE Account LIKE '%${SearchAccount}%'`
             sql += (` limit ${index * linePerPage},${linePerPage}`);
             mysqlQuery(sql, function (err, accounts) {
                 if (err) {
@@ -76,25 +77,26 @@ router.get('/search', function (req, res, next) {
                 var data = accounts;
 
                 // use user.ejs
-                res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount, index: index, totalPage: totalPage, linePerPage: linePerPage });
+                res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount,
+                 index: index, totalPage: totalPage, linePerPage: linePerPage });
             });
         });
     } else {
         return;
     }
 });
-
+/*
 // add page
 router.get('/add', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
     // use userAdd.ejs
-    res.render('userAdd', { title: 'Add User', msg: '' });
+    res.render('groupAdd', { title: 'Add Group', msg: '' });
 });
 
 // add post
-router.post('/userAdd', function (req, res, next) {
+router.post('/groupAdd', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
@@ -102,7 +104,7 @@ router.post('/userAdd', function (req, res, next) {
 
     // check Account exist
     var Account = req.body.Account;
-    mysqlQuery('SELECT Account FROM UserTbl WHERE Account = ?', Account, function (err, accounts) {
+    mysqlQuery('SELECT Account FROM GroupTbl WHERE Account = ?', Account, function (err, accounts) {
         if (err) {
             console.log(err);
         }
@@ -122,19 +124,19 @@ router.post('/userAdd', function (req, res, next) {
             };
 
             //console.log(sql);
-            mysqlQuery('INSERT INTO UserTbl SET ?', sql, function (err, accounts) {
+            mysqlQuery('INSERT INTO GroupTbl SET ?', sql, function (err, accounts) {
                 if (err) {
                     console.log(err);
                 }
                 res.setHeader('Content-Type', 'application/json');
-                res.redirect('/user');
+                res.redirect('/group');
             });
         }
     });
 });
 
 // edit page
-router.get('/userEdit', function (req, res, next) {
+router.get('/groupEdit', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
@@ -142,19 +144,19 @@ router.get('/userEdit', function (req, res, next) {
 
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('SELECT * FROM UserTbl WHERE Id = ?', UserId, function (err, accounts) {
+    mysqlQuery('SELECT * FROM GroupTbl WHERE UserId = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }
 
         var data = accounts;
-        res.render('userEdit', { title: 'Edit user', data: data });
+        res.render('groupEdit', { title: 'Edit Group', data: data });
     });
 
 });
 
 
-router.post('/userEdit', function (req, res, next) {
+router.post('/groupEdit', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
@@ -176,28 +178,28 @@ router.post('/userEdit', function (req, res, next) {
     if (req.body.SuperUser) {
         sql.SuperUser = req.body.SuperUser;
     }
-    mysqlQuery('UPDATE UserTbl SET ? WHERE Id = ?', [sql, UserId], function (err, accounts) {
+    mysqlQuery('UPDATE GroupTbl SET ? WHERE UserId = ?', [sql, UserId], function (err, accounts) {
         if (err) {
             console.log(err);
         }
-        res.redirect('/user');
+        res.redirect('/group');
     });
 });
 
 
-router.get('/userDelete', function (req, res, next) {
+router.get('/groupDelete', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
     var UserId = req.query.UserId;
     var mysqlQuery = req.mysqlQuery;
 
-    mysqlQuery('DELETE FROM UserTbl WHERE Id = ?', UserId, function (err, accounts) {
+    mysqlQuery('DELETE FROM GroupTbl WHERE UserId = ?', UserId, function (err, accounts) {
         if (err) {
             console.log(err);
         }
-        res.redirect('/user');
+        res.redirect('/group');
     });
 });
-
+*/
 module.exports = router;
