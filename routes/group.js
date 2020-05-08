@@ -45,8 +45,8 @@ router.get('/', function (req, res, next) {
             }
             var data = accounts;
 
-            // use user.ejs
-            res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount,
+            // use group.ejs
+            res.render('group', { title: 'Group Information', data: data, SearchAccount: SearchAccount,
              index: index, totalPage: totalPage, linePerPage: linePerPage });
         });
     });
@@ -77,7 +77,7 @@ router.get('/search', function (req, res, next) {
                 var data = accounts;
 
                 // use user.ejs
-                res.render('user', { title: 'User Information', data: data, SearchAccount: SearchAccount,
+                res.render('group', { title: 'Group Information', data: data, SearchAccount: SearchAccount,
                  index: index, totalPage: totalPage, linePerPage: linePerPage });
             });
         });
