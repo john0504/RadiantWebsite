@@ -133,17 +133,17 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    <%= data[i].Month %>/<%= data[i].Day %> 
-                    <% if data[i].Hour < 10) { %>
-                        0                        
+                    <%= data[i].Month %>/<%= data[i].Day %>
+                    <% if (data[i].Hour < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Hour %>:
-                    <% if data[i].Hour < 10) { %>
-                        0                        
+                    <% if (data[i].Minute < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Minute %>:
-                    <% if data[i].Hour < 10) { %>
-                        0                        
+                    <% if (data[i].Second < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Second %>
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
@@ -162,17 +162,17 @@
                         五
                     <% } else if (((data[i].Day >> 6) & 0x01) == 1) { %>
                         六
-                    <% } %> 
-                    的<% if data[i].Hour < 10) { %>
-                        0                        
+                    <% } %>
+                    的<% if (data[i].Hour < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Hour %>:
-                    <% if data[i].Hour < 10) { %>
-                        0                        
+                    <% if (data[i].Minute < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Minute %>:
-                    <% if data[i].Hour < 10) { %>
-                        0                        
+                    <% if (data[i].Second < 10) { %>
+                        0
                     <% } %>
                     <%= data[i].Second %>
                 <% } %> 
