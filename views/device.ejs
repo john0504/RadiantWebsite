@@ -13,7 +13,7 @@
                 window.location.href = "/device";
                 return true;
             }
-            regex = /^([A-Za-z0-9\@\.])+$/;
+            regex = /^([A-Za-z0-9])+$/;
             if (Account.length != 0 && !regex.test(Account)) {
                 return false;
             }
