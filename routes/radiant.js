@@ -410,15 +410,15 @@ router.post('/response', function (req, res) {
             var second = rx[16];
             break;
         case CMD_CUSTOM1:
-            var res = [rx[10], rx[11]];
-            if (res[0] == 0x00 && res[1] == SUBCMD_ADD_SCENE_RES) {
+            var flag = [rx[10], rx[11]];
+            if (flag[0] == 0x00 && flag[1] == SUBCMD_ADD_SCENE_RES) {
                 var sceneId =  rx[12];
                 var sceneInfo = [rx[13], rx[14], rx[15], rx[16], rx[17]];
                 updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
-            } else if (res[0] == 0x00 && res[1] == SUBCMD_DEL_SCENE_RES) {
+            } else if (flag[0] == 0x00 && flag[1] == SUBCMD_DEL_SCENE_RES) {
                 var sceneId =  rx[12];
                 deleteScene(userId, sceneId, sourceAddr[0]);
-            } else if (res[0] == 0x00 && res[1] == SUBCMD_SCHE_RES) {
+            } else if (flag[0] == 0x00 && flag[1] == SUBCMD_SCHE_RES) {
                 var scheflag = rx[12]; 
                 var scheId = rx[13];
                 switch(scheflag) {
@@ -439,8 +439,8 @@ router.post('/response', function (req, res) {
             }
             break;
         case CMD_CUSTOM2:
-            var flag1 = rx[10];
-            switch(flag1) {
+            var flag = rx[10];
+            switch(flag) {
                 case SUBCMD_GET_MAC:
                     if (rx[11] == SUBCMD_GET_MAC2) {
                         var mac = [rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
