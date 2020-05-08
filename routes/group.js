@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = 'SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id';
+        sql = 'SELECT a.*,b.Account from GroupTbl a left join UserTbl b on a.UserId = b.Id';
         if (req.session.SuperUser != 1) {      
             var UserId = req.session.UserId;
             sql += ` WHERE a.UserId = '${UserId}'`
@@ -70,7 +70,7 @@ router.get('/search', function (req, res, next) {
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = `SELECT count(*) as count from GroupTbl a left join UserTbl b on a.UserId = b.Id \
+        sql = `SELECT a.*,b.Account from GroupTbl a left join UserTbl b on a.UserId = b.Id \
                 WHERE b.Account LIKE '%${SearchAccount}%'`
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
