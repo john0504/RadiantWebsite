@@ -125,7 +125,7 @@
                 <% } %> 
             </td>
             <td>
-                <% if ((data[i].ScheType >> 4) & 0x07 == 0) { %>
+                <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
                     單次
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     重複
@@ -133,7 +133,7 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    <%= data[i].Month %>/<%= data[i].Day %> <%= data[i].Hour %>:<%= data[i].Monute %>:<%= data[i].Second %>
+                    <%= data[i].Month %>/<%= data[i].Day %> <%= data[i].Hour %>:<%= data[i].Minute %>:<%= data[i].Second %>
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     每週
                     <% if ((data[i].Day & 0x01) == 1) { %>
