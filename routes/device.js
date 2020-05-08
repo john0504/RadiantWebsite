@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
-    var Account = "";
+    var AccountName = "";
     var order = "";
     var index = parseInt(req.query.index) ? parseInt(req.query.index) : 0;
     if (index < 0) {
@@ -51,7 +51,7 @@ router.get('/', function (req, res, next) {
                     console.log(err);
                 }
                 res.render('device', {
-                    title: 'Device Information', data: devices, index: index, Account: Account,
+                    title: 'Device Information', data: devices, index: index, AccountName: AccountName,
                     totalPage: totalPage, linePerPage: linePerPage, order: order
                 });
             });
@@ -70,26 +70,23 @@ router.get('/search', function (req, res, next) {
     if (index < 0) {
         index = 0;
     }
-    var Account = req.query.Account;
+    var AccountName = req.query.AccountName;
     var order = req.query.order;
     var totalPage = 0;
     var mysqlQuery = req.mysqlQuery;
 
     var sql = 'SELECT count(*) as count from DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id';
-    if (Account && Account != "") {   
-        sql += (` WHERE b.Account LIKE '%${Account}%'`);
+    if (AccountName && AccountName != "") {   
+        sql += (` WHERE b.Account LIKE '%${AccountName}%'`);
     }
     mysqlQuery(sql, function (err, dev) {
         var total = dev[0].count;
         totalPage = Math.ceil(total / linePerPage);
         sql = 'SELECT a.*,b.Account FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id';   
-        if (Account && Account != "") {   
-            sql += (` WHERE b.Account LIKE '%${Account}%'`);
-        }
-        if (req.session.SuperUser != 1) {
-            sql += (` AND a.AccountNo = ${req.session.AccountNo}`);    
+        if (AccountName && AccountName != "") {   
+            sql += (` WHERE b.Account LIKE '%${AccountName}%'`);
         }
         if (order && order != "") {
             sql += (` order by ${order}`);
@@ -108,7 +105,7 @@ router.get('/search', function (req, res, next) {
                 }
             });
             res.render('device', {
-                title: 'Device Information', data: devices, index: index, Account: Account, 
+                title: 'Device Information', data: devices, index: index, AccountName: AccountName, 
                 totalPage: totalPage, linePerPage: linePerPage, order: order
             });
         });

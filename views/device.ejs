@@ -8,20 +8,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script>
         function Search() {
-            var Account = document.getElementsByName('SearchAccount')[0].value;
-            if (Address.length == 0 && Account.length == 0) {
+            var AccountName = document.getElementsByName('SearchAccount')[0].value;
+            if (AccountName.length == 0 && AccountName.length == 0) {
                 window.location.href = "/device";
                 return true;
             }
             regex = /^([A-Za-z0-9])+$/;
-            if (Account.length != 0 && !regex.test(Account)) {
+            if (AccountName.length != 0 && !regex.test(AccountName)) {
                 return false;
             }
-            window.location.href = `/device/search?Account=${Account}`;
+            window.location.href = `/device/search?AccountName=${AccountName}`;
         }
 
-        function Order(index, Account, field) {
-            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index}`;
+        function Order(index, AccountName, field) {
+            window.location.href = `/device/search?AccountName=${AccountName}&order=${field}&index=${index}`;
         }
 
         function History(Address, UserId) {
@@ -32,17 +32,17 @@
             window.location.href = `/device/deviceEdit?Address=${Address}&UserId=${UserId}`;
         }
 
-        function Next(index, UserId, Account, field) {
-            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${++index}`;
+        function Next(index, UserId, AccountName, field) {
+            window.location.href = `/device/search?AccountName=${AccountName}&order=${field}&index=${++index}`;
         }
 
-        function Past(index, UserId, Account, field) {
-            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index - 1}`;
+        function Past(index, UserId, AccountName, field) {
+            window.location.href = `/device/search?AccountName=${AccountName}&order=${field}&index=${index - 1}`;
         }
 
-        function Go(Account, UserId, field) {
+        function Go(AccountName, UserId, field) {
             var index = document.getElementsByName('pageindex')[0].value - 1;
-            window.location.href = `/device/search?Account=${Account}&order=${field}&index=${index}`;
+            window.location.href = `/device/search?AccountName=${AccountName}&order=${field}&index=${index}`;
         }
     </script>
 </head>
@@ -67,20 +67,20 @@
     </table>
     <h1>裝置 - 列表</h1>
     <% if (locals.SuperUser == 1) { %>
-    <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= Account %>" />
+    <input type="text" name="SearchAccount" placeholder="搜尋所有者" value="<%= AccountName %>" />
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
     <% } %>
     <br>
     <% if(index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
-        onclick="Past('<%= index %>','<%= Account %>','<%= order %>');" />
+        onclick="Past('<%= index %>','<%= AccountName %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
     <%= index+1  %>/<%= totalPage  %>
     <% if(index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
-        onclick="Next('<%= index %>','<%= Account %>','<%= order %>');" />
+        onclick="Next('<%= index %>','<%= AccountName %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
     <% } %>
@@ -90,25 +90,25 @@
             <th>所有者
                 <% if(order == "b.Account asc") { %>
                 <input type="button" name="order" value="▼"
-                    onclick="Order('<%= index %>','<%= Account %>','b.Account desc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','b.Account desc');" />
                 <% } else if (order == "b.Account desc"){ %>
                 <input type="button" name="order" value="▲"
-                    onclick="Order('<%= index %>','<%= Account %>','b.Account asc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','b.Account asc');" />
                 <% } else { %>
                 <input type="button" name="order" value="▽"
-                    onclick="Order('<%= index %>','<%= Account %>','b.Account asc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','b.Account asc');" />
                 <% } %>
             </th>
             <th>位址
                 <% if(order == "a.Address asc") { %>
                 <input type="button" name="order" value="▼"
-                    onclick="Order('<%= index %>','<%= Account %>','a.Address desc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','a.Address desc');" />
                 <% } else if (order == "a.Address desc"){ %>
                 <input type="button" name="order" value="▲"
-                    onclick="Order('<%= index %>','<%= Account %>','a.Address asc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','a.Address asc');" />
                 <% } else { %>
                 <input type="button" name="order" value="▽"
-                    onclick="Order('<%= index %>','<%= Account %>','a.Address asc');" />
+                    onclick="Order('<%= index %>','<%= AccountName %>','a.Address asc');" />
                 <% } %>
             </th>
             <th>類型</th>
@@ -154,21 +154,21 @@
     </table>
     <% if(index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
-        onclick="Past('<%= index %>','<%= Account %>','<%= order %>');" />
+        onclick="Past('<%= index %>','<%= AccountName %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
     <%= index+1  %>/<%= totalPage  %>
     <% if(index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
-        onclick="Next('<%= index %>','<%= Account %>','<%= order %>');" />
+        onclick="Next('<%= index %>','<%= AccountName %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
     <% } %>
     <br>
     <input type="number" name="pageindex" placeholder="輸入頁碼" value="<%= index  + 1 %>" />
     <input type="button" name="search" value="前往" class="btn"
-        onclick="Go('<%= Account %>','<%= order %>');" />
+        onclick="Go('<%= AccountName %>','<%= order %>');" />
 </body>
 
 </html>
