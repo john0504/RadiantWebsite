@@ -19,14 +19,14 @@ body {
 a {
     padding: 5px 20px;
     border: none;
-    background: #7DCD85;
+    background: #2D36A6;
     color: #FFFFFF;
     font-size: 14px;
     text-decoration: none;
 }
 
 a:hover {
-    background: #6BB072;
+    background: #4D56C6;
 }
 
 .table {
@@ -84,7 +84,7 @@ a:hover {
     height: 30px;
     border: none;
     color: #FFFFFF;
-    background: #7DCD85;
+    background: #2D36A6;
     cursor: pointer;
     outline: none;
     -webkit-transition: background .25s;
@@ -95,7 +95,7 @@ a:hover {
 }
 
 .btn:hover {
-    background: #6BB072;    
+    background: #4D56C6;    
 }
 
 .btn:disabled {
