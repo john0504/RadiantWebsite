@@ -65,6 +65,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: 'radiant', //secret的值建议使用随机字符串
+    name: 'sid',
+    resave: false,
+    saveUninitialized: true,
     cookie: { maxAge: 60 * 1000 * 30 } // 过期时间（毫秒）
 }));
 
