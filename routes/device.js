@@ -130,13 +130,9 @@ router.get('/deviceHistory', function (req, res, next) {
             total = mes[0].count;
         }
         totalPage = Math.ceil(total / linePerPage);
-        /*
-        SELECT a.*,b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
-                    left join DeviceTypeTbl c on a.TypeId = c.Id
-        */
         sql = `SELECT a.*, b.Account, c.Name FROM DeviceHistoryTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id WHERE a.Address ='${Address}' AND a.UserId = ${UserId}`;
-        sql += (`order by a.id desc limit ${index * linePerPage},${linePerPage}`);
+        sql += (` order by a.id desc limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, data) {
             if (err) {
                 console.log(err);
