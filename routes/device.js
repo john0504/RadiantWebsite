@@ -125,7 +125,10 @@ router.get('/deviceHistory', function (req, res, next) {
     var mysqlQuery = req.mysqlQuery;
     var sql = `SELECT count(*) as count from DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
     mysqlQuery(sql, function (err, mes) {
-        var total = mes[0].count;
+        var total = 0;
+        if (mes && mes[0].count) {
+            total = mes[0].count;
+        }
         totalPage = Math.ceil(total / linePerPage);
         sql = `SELECT * FROM DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
         sql += (`order by id desc limit ${index * linePerPage},${linePerPage}`);
