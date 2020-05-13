@@ -143,14 +143,14 @@ function updateDevice(userId, buffer) {
     mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);           
-        }
-    });
-    insertsql.UpdateDate = Date.now() / 1000;
-    sql = "INSERT INTO DeviceHistoryTbl SET ?";
-    mysqlQuery(sql, insertsql, function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);           
-        }
+        }        
+        insertsql.UpdateDate = Date.now() / 1000;
+        sql = "INSERT INTO DeviceHistoryTbl SET ?";
+        mysqlQuery(sql, insertsql, function (err, result) {
+            if (err) {
+                console.log('[INSERT ERROR] - ', err.message);           
+            }
+        });
     });
     return;
 }
