@@ -133,9 +133,10 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    <%= (data[i].Month < 10 ? 0 : '') + data[i].Month %>-<%= data[i].Day %>
-                    <%= (data[i].Hour < 10 ? 0 : '') + data[i].Hour + 
-                    (data[i].Minute < 10 ? 0 : '') + data[i].Minute +
+                    <%= (data[i].Month < 10 ? 0 : '') + data[i].Month + '-' + 
+                    (data[i].Day < 10 ? 0 : '') + data[i].Day %>                    
+                    <%= (data[i].Hour < 10 ? 0 : '') + data[i].Hour + ':' +
+                    (data[i].Minute < 10 ? 0 : '') + data[i].Minute + ':' +
                     (data[i].Second < 10 ? 0 : '') + data[i].Second %>
                     
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
