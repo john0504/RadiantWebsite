@@ -68,8 +68,18 @@
             <% for ( var i = 0 ; i < data.length ; i++){ %>
             <tr>
                 <td>
-                    <% var date = new Date(data[i].UpdateDate*1000).Format("yyyy-MM-dd HH:mm:ss"); %>
-                    <%= date %>
+                    <% var date = new Date(data[i].UpdateDate*1000); %>
+                    <%= date.getFullYear() + "-" + 
+                    <% if (date.getMonth() < 10) { %>0<% } %> +
+                    (date.getMonth() + 1) + "-" + 
+                    <% if (date.getDate() < 10) { %>0<% } %> + 
+                    date.getDate() + " " + 
+                    <% if (date.getHours() < 10) { %>0<% } %> + 
+                    date.getHours() + ":" + 
+                    <% if (date.getMinutes() < 10) { %>0<% } %> + 
+                    date.getMinutes() + ":" + 
+                    <% if (date.getMinutes() < 10) { %>0<% } %> + 
+                    date.getSeconds() %>
                 </td>
                 <td>
                     <%= data[i].Name %>
