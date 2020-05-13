@@ -133,10 +133,10 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    <%= (date[i].Month < 10 ? 0 : '') + data[i].Month %>-<%= data[i].Day %>
-                    <%= (date[i].Hour < 10 ? 0 : '') + data[i].Hour + 
-                    (date[i].Minute < 10 ? 0 : '') + data[i].Minute +
-                    (date[i].Second < 10 ? 0 : '') + data[i].Second %>
+                    <%= (data[i].Month < 10 ? 0 : '') + data[i].Month %>-<%= data[i].Day %>
+                    <%= (data[i].Hour < 10 ? 0 : '') + data[i].Hour + 
+                    (data[i].Minute < 10 ? 0 : '') + data[i].Minute +
+                    (data[i].Second < 10 ? 0 : '') + data[i].Second %>
                     
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     每週
@@ -148,9 +148,9 @@
                     <% if (((data[i].Day >> 5) & 0x01) == 1) { %>五<% } %>
                     <% if (((data[i].Day >> 6) & 0x01) == 1) { %>六<% } %>
                     的
-                    <%= (date[i].Hour < 10 ? 0 : '') + data[i].Hour + ':' +
-                    (date[i].Minute < 10 ? 0 : '') + data[i].Minute + ':' +
-                    (date[i].Second < 10 ? 0 : '') + data[i].Second %>
+                    <%= (data[i].Hour < 10 ? 0 : '') + data[i].Hour + ':' +
+                    (data[i].Minute < 10 ? 0 : '') + data[i].Minute + ':' +
+                    (data[i].Second < 10 ? 0 : '') + data[i].Second %>
                 <% } %> 
             </td>
             <td>
