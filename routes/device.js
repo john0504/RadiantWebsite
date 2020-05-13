@@ -38,7 +38,7 @@ router.get('/', function (req, res, next) {
         mysqlQuery(sql, function (err, dev2) {
             var total = dev[0].count;
             totalPage = Math.ceil(total / linePerPage);
-            sql = 'SELECT a.*,b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+            sql = 'SELECT a.*, b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                     left join DeviceTypeTbl c on a.TypeId = c.Id';
 
             if (req.session.SuperUser != 1) {
@@ -82,7 +82,7 @@ router.get('/search', function (req, res, next) {
     mysqlQuery(sql, function (err, dev) {
         var total = dev[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = 'SELECT a.*,b.Account FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+        sql = 'SELECT a.*, b.Account FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id';   
         if (SearchAccount && SearchAccount != "") {   
             sql += (` WHERE b.Account LIKE '%${SearchAccount}%'`);
@@ -130,8 +130,13 @@ router.get('/deviceHistory', function (req, res, next) {
             total = mes[0].count;
         }
         totalPage = Math.ceil(total / linePerPage);
-        sql = `SELECT * FROM DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
-        sql += (`order by id desc limit ${index * linePerPage},${linePerPage}`);
+        /*
+        SELECT a.*,b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+                    left join DeviceTypeTbl c on a.TypeId = c.Id
+        */
+        sql = `SELECT a.*, b.Account, c.Name FROM DeviceHistoryTbl a left join UserTbl b on a.UserId = b.Id \
+                left join DeviceTypeTbl c on a.TypeId = c.Id WHERE a.Address ='${Address}' AND a.UserId = ${UserId}`;
+        sql += (`order by a.id desc limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, data) {
             if (err) {
                 console.log(err);
