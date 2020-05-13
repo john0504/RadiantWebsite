@@ -55,8 +55,9 @@
             <input type="button" name="next" value="下一頁" class="btn" disabled="true"
             onclick="Next('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } %>
-        <%= data[0].Account %> - <%= data[0].Address %>
+        
         <table class="table">
+            <tr><%= data[0].Account %> - <%= data[0].Address %></tr>
             <tr>
                 <th>時間</th>
                 <th>類型</th>
