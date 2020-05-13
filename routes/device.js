@@ -30,32 +30,27 @@ router.get('/', function (req, res, next) {
     if (req.session.SuperUser != 1) {
         sql += (` WHERE UserId = ${req.session.UserId}`);
     }
-    mysqlQuery(sql, function (err, dev) {
-        sql = 'SELECT count(*) as count from DeviceTbl'
+    mysqlQuery(sql, function (err, dev) {        
+        var total = dev[0].count;
+        totalPage = Math.ceil(total / linePerPage);
+        sql = 'SELECT a.*, b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+                left join DeviceTypeTbl c on a.TypeId = c.Id';
+
         if (req.session.SuperUser != 1) {
-            sql += (` AND UserId = ${req.session.UserId}`);
+            sql += (` WHERE a.UserId = ${req.session.UserId}`);
         }
-        mysqlQuery(sql, function (err, dev2) {
-            var total = dev[0].count;
-            totalPage = Math.ceil(total / linePerPage);
-            sql = 'SELECT a.*, b.Account, c.Name FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
-                    left join DeviceTypeTbl c on a.TypeId = c.Id';
+        sql += (` limit ${index * linePerPage},${linePerPage}`);
 
-            if (req.session.SuperUser != 1) {
-                sql += (` WHERE a.UserId = ${req.session.UserId}`);
+        mysqlQuery(sql, function (err, devices) {
+            if (err) {
+                console.log(err);
             }
-            sql += (` limit ${index * linePerPage},${linePerPage}`);
-
-            mysqlQuery(sql, function (err, devices) {
-                if (err) {
-                    console.log(err);
-                }
-                res.render('device', {
-                    title: 'Device Information', data: devices, index: index, SearchAccount: SearchAccount,
-                    totalPage: totalPage, linePerPage: linePerPage, order: order
-                });
+            console.log(JSON.stringify(devices[0]));
+            res.render('device', {
+                title: 'Device Information', data: devices, index: index, SearchAccount: SearchAccount,
+                totalPage: totalPage, linePerPage: linePerPage, order: order
             });
-        });
+        });     
     });
 });
 
@@ -123,7 +118,7 @@ router.get('/deviceHistory', function (req, res, next) {
         index = 0;
     }
     var mysqlQuery = req.mysqlQuery;
-    var sql = `SELECT count(*) as count from DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
+    var sql = `SELECT count(*) as count from DeviceHistoryTbl WHERE Address = ${Address} AND UserId = ${UserId}`;
     mysqlQuery(sql, function (err, mes) {
         var total = 0;
         if (mes && mes[0].count) {
