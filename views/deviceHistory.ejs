@@ -68,13 +68,8 @@
             <% for ( var i = 0 ; i < data.length ; i++){ %>
             <tr>
                 <td>
-                    <% var date = new Date(data[i].UpdateDate*1000); %>
-                    <%= date.getFullYear() + "-" 
-                        + (date.getMonth() + 1) + "-" 
-                        + date.getDate() + " " 
-                        + date.getHours() + ":" 
-                        + date.getMinutes() + ":" 
-                        + date.getSeconds()  %>
+                    <% var date = new Date(data[i].UpdateDate*1000).Format("yyyy-MM-dd HH:mm:ss"); %>
+                    <%= date %>
                 </td>
                 <td>
                     <%= data[i].Name %>
