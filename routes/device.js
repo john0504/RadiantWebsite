@@ -110,38 +110,34 @@ router.get('/search', function (req, res, next) {
         });
     });
 });
-/*
+
 // history page
 router.get('/deviceHistory', function (req, res, next) {
     if (!checkSession(req, res)) {
         return;
     }
     var Address = req.query.Address;
+    var UserId = req.query.UserId
     var index = parseInt(req.query.index) ? parseInt(req.query.index) : 0;
     if (index < 0) {
         index = 0;
     }
     var mysqlQuery = req.mysqlQuery;
-    var sql = `SELECT count(*) as count from MessageTbl WHERE Address ='${Address}'`;
+    var sql = `SELECT count(*) as count from DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
     mysqlQuery(sql, function (err, mes) {
         var total = mes[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = `SELECT * FROM MessageTbl WHERE Address ='${Address}'`;
+        sql = `SELECT * FROM DeviceHistoryTbl WHERE Address ='${Address}' AND UserId = ${UserId}`;
         sql += (`order by id desc limit ${index * linePerPage},${linePerPage}`);
-        mysqlQuery(sql, function (err, msgs) {
+        mysqlQuery(sql, function (err, data) {
             if (err) {
                 console.log(err);
             }
-            msgs.forEach(msg => {
-                msg.totalmoney = (msg.H68 << 16) + msg.H69;
-                msg.totalgift = (msg.H6A << 16) + msg.H6B;
-            });
-            var data = msgs;
-            res.render('deviceHistory', { title: 'Device History', data: data, index: index, Address: Address, totalPage: totalPage, linePerPage: linePerPage });
+            res.render('deviceHistory', { title: 'Device History', data: data, index: index, Address: Address, UserId: UserId, totalPage: totalPage, linePerPage: linePerPage });
         });
     });
 });
-
+/*
 // edit page
 router.get('/deviceEdit', function (req, res, next) {
     if (!checkSession(req, res)) {
@@ -173,15 +169,7 @@ router.post('/deviceEdit', function (req, res, next) {
     var sql = {
         DevName: req.body.Name
     };
-    var dateStr = req.body.ExpireDate;
-    var year = dateStr.substring(0, 4);
-    var month = dateStr.substring(4, 6);
-    var day = dateStr.substring(6, 8);
-    var date = new Date(year, month - 1, day, 0, 0, 0);
-    var ExpireDate = date.getTime() / 1000;
-    if (ExpireDate) {
-        sql.ExpireDate = ExpireDate;
-    }
+
     mysqlQuery('UPDATE DeviceTbl SET ? WHERE Address = ? AND UserId = ?', [sql, Address, UserId], function (err, rows) {
         if (err) {
             console.log('UPDATE error:' + err);
