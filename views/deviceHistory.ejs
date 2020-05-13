@@ -41,7 +41,8 @@
     <h1>裝置 - 歷史紀錄</h1>
     <% if (!data || data.length == 0) { %>
         查無紀錄        
-    <% } else { %>   
+    <% } else { %>
+        <h1><%= data[0].Account %> - <%= data[0].Address %></h1>
         <% if(index > 0) { %>
             <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } else { %>
@@ -56,8 +57,7 @@
             onclick="Next('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } %>
         
-        <table class="table">
-            <tr><%= data[0].Account %> - <%= data[0].Address %></tr>
+        <table class="table">            
             <tr>
                 <th>時間</th>
                 <th>類型</th>
