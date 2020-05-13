@@ -148,9 +148,9 @@
             </td>
             <td>
                 <input type="button" name="history" value="紀錄" class="btn"
-                    onclick="History('<%= data[i].Address %>, <%= data[i].UserId %>');" />                
+                    onclick="History('<%= data[i].Address %>','<%= data[i].UserId %>');" />                
                 <input type="button" name="edit" value="修改" class="btn" 
-                    onclick="Edit('<%= data[i].Address %>, <%= data[i].UserId %>');" />
+                    onclick="Edit('<%= data[i].Address %>','<%= data[i].UserId %>');" />
             </td>
         </tr>
         <% } %>
