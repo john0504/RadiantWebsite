@@ -77,7 +77,7 @@ router.get('/search', function (req, res, next) {
     mysqlQuery(sql, function (err, dev) {
         var total = dev[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = 'SELECT a.*, b.Account FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
+        sql = 'SELECT a.*, b.Account, c.Name, c.TextInfo2, c.TextInfo3 FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id';   
         if (SearchAccount && SearchAccount != "") {   
             sql += (` WHERE b.Account LIKE '%${SearchAccount}%'`);
@@ -125,7 +125,7 @@ router.get('/deviceHistory', function (req, res, next) {
             total = mes[0].count;
         }
         totalPage = Math.ceil(total / linePerPage);
-        sql = `SELECT a.*, b.Account, c.Name FROM DeviceHistoryTbl a left join UserTbl b on a.UserId = b.Id \
+        sql = `SELECT a.*, b.Account, c.Name, c.TextInfo2, c.TextInfo3 FROM DeviceHistoryTbl a left join UserTbl b on a.UserId = b.Id \
                 left join DeviceTypeTbl c on a.TypeId = c.Id WHERE a.Address ='${Address}' AND a.UserId = ${UserId}`;
         sql += (` order by a.id desc limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, data) {
