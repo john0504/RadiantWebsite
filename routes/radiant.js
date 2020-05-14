@@ -143,14 +143,27 @@ function updateDevice(userId, buffer) {
     mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);           
-        }        
-        insertsql.UpdateDate = Date.now() / 1000;
-        sql = "INSERT INTO DeviceHistoryTbl SET ?";
-        mysqlQuery(sql, insertsql, function (err, result) {
-            if (err) {
-                console.log('[INSERT ERROR] - ', err.message);           
-            }
-        });
+        }
+    });
+    return;
+}
+
+function updateDeviceHistory(userId, sourceAddr, buffer) {
+    var insertsql = {
+        UserId: userId,
+        Address: buffer[0],
+        Info1: buffer[1],
+        Info2: buffer[2],
+        Info3: buffer[3],
+        TypeId: buffer[4],
+        SourceAddress: sourceAddr,
+        UpdateDate: Date.now() / 1000
+    };
+    sql = "INSERT INTO DeviceHistoryTbl SET ?";
+    mysqlQuery(sql, insertsql, function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);           
+        }
     });
     return;
 }
@@ -374,8 +387,10 @@ router.post('/response', function (req, res) {
     switch(cmdNo) {
         case CMD_REPORT_DATA:
             updateDevice(userId, [rx[10], rx[11], rx[12], rx[13], rx[14]]);
+            updateDeviceHistory(userId, sourceAddr[0], [rx[10], rx[11], rx[12], rx[13], rx[14]]);
             if (rx[15] != 0x00) {
                 updateDevice(userId, [rx[15], rx[16], rx[17], rx[18], rx[19]]);
+                updateDeviceHistory(userId, sourceAddr[0], [rx[15], rx[16], rx[17], rx[18], rx[19]]);
             }
             break;
         case CMD_CHANGE_ADDR_RES:

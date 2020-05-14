@@ -172,6 +172,7 @@ CREATE TABLE `DeviceHistoryTbl` (
   `Info2` int(11) NOT NULL DEFAULT 0,
   `Info3` int(11) NOT NULL DEFAULT 0,
   `TypeId` int(11) NOT NULL DEFAULT 0,
+  `SourceAddress` int(11) NOT NULL DEFAULT 0,
   `UpdateDate` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

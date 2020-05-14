@@ -60,6 +60,7 @@
         <table class="table">            
             <tr>
                 <th>時間</th>
+                <th>來源位址</th>
                 <th>類型</th>
                 <th>參數1</th>
                 <th>參數2</th>
@@ -77,6 +78,9 @@
                     <%= (date.getHours() < 10 ? '0' : '') + date.getHours() + ":" + 
                     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + 
                     (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() %>
+                </td>
+                <td>
+                    <%= data[i].SourceAddress %>
                 </td>
                 <td>
                     <%= data[i].Name %>
