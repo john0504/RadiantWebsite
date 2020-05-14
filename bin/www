@@ -43,6 +43,7 @@ var server2 = http.createServer(app2);
 server2.listen(port2);
 server2.on('error', onError);
 server2.on('listening', onListening);
+console.log("Server Start!");
 
 /**
  * Normalize a port into a number, string, or false.
