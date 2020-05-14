@@ -45,7 +45,6 @@ router.get('/', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-            console.log(JSON.stringify(devices[0]));
             res.render('device', {
                 title: 'Device Information', data: devices, index: index, SearchAccount: SearchAccount,
                 totalPage: totalPage, linePerPage: linePerPage, order: order
