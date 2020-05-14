@@ -48,8 +48,9 @@ var mysqlQuery = function (sql, options, callback) {
             conn.release();
         }
     });
-    console.log("MySQL Ready!");
 }
+
+console.log("MySQL Ready!");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
