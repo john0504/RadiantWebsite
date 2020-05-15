@@ -83,12 +83,23 @@ client.on('message', function (topic, msg) {
     var action = topic.substring(8, 14);
     if (action == 'server') {
         console.log(`Get a Server Message!`);
-        var obj = JSON.parse(msg);
-        var userId = obj.UserId;
-        var rx = obj.rx;
-        radiantDb(mysqlQuery, userId, rx);
+        try {
+            var obj = JSON.parse(msg);
+            var userId = obj.UserId;
+            var rx = obj.rx;
+            radiantDb(mysqlQuery, userId, rx);
+        } catch (e) {
+            console.log(`JSON parse error:${msg}`);
+            return;
+        }        
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
+        try {
+            var obj = JSON.parse(msg);
+        } catch (e) {
+            console.log(`JSON parse error:${msg}`);
+            return;
+        }    
     }
 });
 
