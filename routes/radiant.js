@@ -131,7 +131,7 @@ router.post('/response', function (req, res) {
     console.log('response:' + JSON.stringify(req.body['rx']));
     var userId = req.body['UserId'];
     var rx = req.body['rx'];
-    radiantDb.response(mysqlQuery, userId, rx);
+    radiantDb(mysqlQuery, userId, rx);
 
     res.status(200).send({});
     return;

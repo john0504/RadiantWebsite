@@ -371,7 +371,7 @@ function changeSchedule(userId, scheList, deviceAddr, schepage) {
     return; 
 }
 
-export function response(sqlService, userId, rx) {
+function response(sqlService, userId, rx) {
     mysqlQuery = sqlService;
     var sequenceNo = [rx[0], rx[1], rx[2]];
     var sourceAddr = [rx[3], rx[4]];
@@ -517,3 +517,5 @@ export function response(sqlService, userId, rx) {
             break;
     }
 }
+
+module.exports = response;

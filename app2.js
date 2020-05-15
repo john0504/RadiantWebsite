@@ -86,7 +86,7 @@ client.on('message', function (topic, msg) {
         var obj = JSON.parse(msg);
         var userId = obj.UserId;
         var rx = obj.rx;
-        radiantDb.response(mysqlQuery, userId, rx);
+        radiantDb(mysqlQuery, userId, rx);
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
     }
