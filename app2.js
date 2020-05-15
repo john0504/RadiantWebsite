@@ -1,4 +1,3 @@
-import { response } from './routes/radiant';
 var express = require('express');
 var path = require('path');
 // var favicon = require('serve-favicon');
@@ -86,7 +85,7 @@ client.on('message', function (topic, msg) {
         var obj = JSON.parse(msg);
         var userId = obj.UserId;
         var rx = obj.rx;
-        response(userId, rx);
+        radiant.response(userId, rx);
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
     }
