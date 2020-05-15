@@ -82,6 +82,11 @@ client.on('message', function (topic, msg) {
     var action = topic.substring(8, 14);
     if (action == 'server') {
         console.log(`Get a Server Message!`);
+        var obj = JSON.parse(msg);
+        var userId = obj.UserId;
+        var rx = obj.rx;
+        import {response} from './routes/radiant';
+        response(userId, rx);
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
     }

@@ -374,11 +374,7 @@ function changeSchedule(userId, scheList, deviceAddr, schepage) {
     return; 
 }
 
-router.post('/response', function (req, res) {
-    mysqlQuery = req.mysqlQuery;
-    console.log('response:' + JSON.stringify(req.body['rx']));
-    var userId = req.body['UserId'];
-    var rx = req.body['rx'];
+export function response(userId, rx) {
     var sequenceNo = [rx[0], rx[1], rx[2]];
     var sourceAddr = [rx[3], rx[4]];
     var crc = [rx[5], rx[6]];
@@ -522,6 +518,14 @@ router.post('/response', function (req, res) {
             }
             break;
     }
+}
+
+router.post('/response', function (req, res) {
+    mysqlQuery = req.mysqlQuery;
+    console.log('response:' + JSON.stringify(req.body['rx']));
+    var userId = req.body['UserId'];
+    var rx = req.body['rx'];
+    response(userId, rx);
 
     res.status(200).send({});
     return;
