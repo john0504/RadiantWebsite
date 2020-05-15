@@ -71,6 +71,9 @@ var client = mqtt.connect('mqtt://localhost', opt);
 client.on('connect', function () {
     console.log('MQTT Server Connected!');
     client.subscribe("radiant/#");
+    var topic = `radiant/testmqtt`;
+    var paylod = `This is a test message.`;
+    client.publish(topic, paylod, { qos: 1, retain: false });
 });
 
 client.on('message', function (topic, msg) {
