@@ -77,7 +77,8 @@ var mqtt = require('mqtt');
 var fs = require('fs');
 var opt = {
     port: 1883,
-    clientId: 'CECTCO-nodejs',
+    // clientId: 'CECTCO-nodejs',
+    clientId: 'AURORA-nodejs',
     protocol: 'mqtt',
     username: 'ZWN0Y28uY29tMCAXDTE5MDcxODAzMzUyMVoYDzIxMTkwNjI0MDMzNTIxWjBlMQsw',
     password: 'CQYDVQQGEwJUVzEPMA0GA1UECAwGVGFpd2FuMRAwDgYDVQQHDAdIc2luY2h1MQ8w',
@@ -91,13 +92,28 @@ var client = mqtt.connect('mqtt://localhost', opt);
 
 client.on('connect', function () {
     console.log('MQTT server connected.');
-    client.subscribe("WAWA/#");
-    var topic = `WAWA2/AppVersion`;
-    var paylod = `2.4.20200326`;
-    client.publish(topic, paylod, { qos: 1, retain: true });
+    // client.subscribe("WAWA/#");
+    // var topic = `WAWA2/AppVersion`;
+    // var paylod = `2.4.20200326`;
+    // client.publish(topic, paylod, { qos: 1, retain: true });
+    
+    client.subscribe("radiant/#");
+    var topic = `radiant/testmqtt`;
+    var paylod = `This is a test message.`;
+    client.publish(topic, paylod, { qos: 1, retain: false });
 });
 
 client.on('message', function (topic, msg) {
+    
+    console.log(`Topic: ${topic} Msg: ${msg}`);
+    var PrjName = topic.substring(0, 7);
+    var action = topic.substring(8, 14);
+    if (action == 'server') {
+        console.log(`Get a Server Message!`);
+    } else if (action == 'device') {
+        console.log(`Get a Device Message!`);
+    }
+    /*
     var PrjName = topic.substring(0, 4);
     var No = "";
     var action = "";
@@ -462,9 +478,11 @@ client.on('message', function (topic, msg) {
     } else {
         console.log('get Topic:' + topic + " - Don't Care");
     }
+    */
 });
 
 //===========================================
+/*
 setInterval(function () {
     var date = new Date(Date.now());
     if (date.getHours() == 1) {
@@ -587,7 +605,7 @@ setInterval(function () {
         return;
     }
 }, 60 * 60 * 1000);
-
+*/
 var app = express();
 
 // view engine setup
