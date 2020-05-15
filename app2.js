@@ -52,20 +52,20 @@ var mysqlQuery = function (sql, options, callback) {
 
 console.log("MySQL Database Ready!");
 
-/*
 var mqtt = require('mqtt');
 var fs = require('fs');
 var opt = {
     port: 1883,
     clientId: 'AURORA-nodejs',
     protocol: 'mqtt',
-    username: 'ZWN0Y28uY29tMCAXDTE5MDcxODAzMzUyMVoYDzIxMTkwNjI0MDMzNTIxWjBlMQsw',
-    password: 'CQYDVQQGEwJUVzEPMA0GA1UECAwGVGFpd2FuMRAwDgYDVQQHDAdIc2luY2h1MQ8w',
-    key: fs.readFileSync('./client.key'),
-    cert: fs.readFileSync('./client.crt'),
-    ca: fs.readFileSync('./ca.crt'),
+    // username: 'ZWN0Y28uY29tMCAXDTE5MDcxODAzMzUyMVoYDzIxMTkwNjI0MDMzNTIxWjBlMQsw',
+    // password: 'CQYDVQQGEwJUVzEPMA0GA1UECAwGVGFpd2FuMRAwDgYDVQQHDAdIc2luY2h1MQ8w',
+    // key: fs.readFileSync('./client.key'),
+    // cert: fs.readFileSync('./client.crt'),
+    // ca: fs.readFileSync('./ca.crt'),
     rejectUnauthorized: false
 };
+
 var client = mqtt.connect('mqtt://localhost', opt);
 
 client.on('connect', function () {
@@ -86,7 +86,7 @@ client.on('message', function (topic, msg) {
         console.log(`Get a Device Message!`);
     }
 });
-*/
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
