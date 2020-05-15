@@ -50,7 +50,39 @@ var mysqlQuery = function (sql, options, callback) {
     });
 }
 
-console.log("MySQL Ready!");
+console.log("MySQL Database Ready!");
+
+var mqtt = require('mqtt');
+var fs = require('fs');
+var opt = {
+    port: 1883,
+    clientId: 'AURORA-nodejs',
+    protocol: 'mqtt',
+    username: 'ZWN0Y28uY29tMCAXDTE5MDcxODAzMzUyMVoYDzIxMTkwNjI0MDMzNTIxWjBlMQsw',
+    password: 'CQYDVQQGEwJUVzEPMA0GA1UECAwGVGFpd2FuMRAwDgYDVQQHDAdIc2luY2h1MQ8w',
+    key: fs.readFileSync('./client.key'),
+    cert: fs.readFileSync('./client.crt'),
+    ca: fs.readFileSync('./ca.crt'),
+    rejectUnauthorized: false
+};
+
+var client = mqtt.connect('mqtt://localhost', opt);
+
+client.on('connect', function () {
+    console.log('MQTT Server Connected!');
+    client.subscribe("radiant/#");
+});
+
+client.on('message', function (topic, msg) {
+    console.log(`Topic: ${topic} Msg: ${msg}`);
+    var PrjName = topic.substring(0, 7);
+    var action = topic.substring(8, 14);
+    if (action == 'server') {
+        console.log(`Get a Server Message!`);
+    } else if (action == 'device') {
+        console.log(`Get a Device Message!`);
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
