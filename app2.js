@@ -16,6 +16,7 @@ var group = require('./routes/group');
 var scene = require('./routes/scene');
 var schedule = require('./routes/schedule');
 var radiant = require('./routes/radiant');
+var radiantDb = require('./routes/radiant-db');
 
 var app = express();
 
@@ -85,7 +86,7 @@ client.on('message', function (topic, msg) {
         var obj = JSON.parse(msg);
         var userId = obj.UserId;
         var rx = obj.rx;
-        radiant.response(userId, rx);
+        radiantDb.response(mysqlQuery, userId, rx);
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
     }
