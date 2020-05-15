@@ -4,7 +4,6 @@ var express = require('express'),
 var radiantDb = require('./radiant-db');
 
 var LocalSN = 0;
-var mysqlQuery;
 
 const VendorId = [0x11, 0x02];
 
@@ -127,11 +126,10 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
 }
 
 router.post('/response', function (req, res) {
-    mysqlQuery = req.mysqlQuery;
     console.log('response:' + JSON.stringify(req.body['rx']));
     var userId = req.body['UserId'];
     var rx = req.body['rx'];
-    radiantDb(mysqlQuery, userId, rx);
+    radiantDb(req.mysqlQuery, userId, rx);
 
     res.status(200).send({});
     return;
