@@ -71,7 +71,7 @@ const SUBCMD_SCHE_RES             = 0x0C;
 
 const SUBCMD_PAIR                 = 0xA3;
 const SUBCMD_GET_DATA             = 0xA5;
-const SUBCMD_PAIR_STOP            = 0x00
+const SUBCMD_PAIR_STOP            = 0x00;
 const SUBCMD_PAIR_START           = 0x01;
 const SUBCMD_UNPAIR_ALL_START     = 0x02;
 
@@ -747,17 +747,17 @@ router.get('/comboswitch-set-data-group', function (req, res) {
 
 // Scene Switch
 
-router.get('/sceneswitch-start-pair', function (req, res) {    
+router.get('/sceneswitch-start-pair', function (req, res) {
     res.redirect('/radiant/wallswitch-start-pair');
     return;
 });
 
-router.get('/sceneswitch-check-pair', function (req, res) {    
+router.get('/sceneswitch-check-pair', function (req, res) {
     res.redirect('/radiant/wallswitch-check-pair');
     return;
 });
 
-router.get('/sceneswitch-stop-pair', function (req, res) {    
+router.get('/sceneswitch-stop-pair', function (req, res) {
     res.redirect('/radiant/wallswitch-stop-pair');
     return;
 });
@@ -772,7 +772,7 @@ router.get('/sceneswitch-set-data-scene', function (req, res) {
     return;
 });
 
-router.get('/sceneswitch-set-data-group', function (req, res) {    
+router.get('/sceneswitch-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });
@@ -840,7 +840,7 @@ router.get('/hcl-12-set-data-info', function (req, res) {
     return;
 });
 
-router.get('/hcl-12-set-data-group', function (req, res) {    
+router.get('/hcl-12-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });
@@ -901,7 +901,7 @@ router.get('/lightsensor-set-data-info', function (req, res) {
     return;
 });
 
-router.get('/lightsensor-set-data-group', function (req, res) {    
+router.get('/lightsensor-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });
@@ -1026,7 +1026,7 @@ router.get('/dynamicscene-set-data-info', function (req, res) {
     return;
 });
 
-router.get('/dynamicscene-set-data-group', function (req, res) {    
+router.get('/dynamicscene-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });
@@ -1256,7 +1256,7 @@ router.get('/hcl-24-set-data-info', function (req, res) {
     return;
 });
 
-router.get('/hcl-24-set-data-group', function (req, res) {    
+router.get('/hcl-24-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });
@@ -1290,7 +1290,7 @@ router.get('/phone-cell-pir-set-data-group', function (req, res) {
 
 // Switch Direct
 
-router.get('/switch-direct-get-data', function (req, res) {    
+router.get('/switch-direct-get-data', function (req, res) {
     res.redirect('/radiant/wallswitch-get-data');
     return;
 });
@@ -1300,7 +1300,7 @@ router.get('/switch-direct-set-data-scene', function (req, res) {
     return;
 });
 
-router.get('/switch-direct-set-data-group', function (req, res) {    
+router.get('/switch-direct-set-data-group', function (req, res) {
     res.redirect('/radiant/wallswitch-set-data-group');
     return;
 });

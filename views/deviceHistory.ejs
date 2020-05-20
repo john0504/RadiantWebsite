@@ -57,7 +57,7 @@
             onclick="Next('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } %>
         
-        <table class="table">            
+        <table class="table">
             <tr>
                 <th>時間</th>
                 <th>來源位址</th>
@@ -68,7 +68,7 @@
                 <th>參數3</th>
                 <th>參數3說明</th>
             </tr>
-            <% for ( var i = 0 ; i < data.length ; i++){ %>
+            <% for (var i = 0 ; i < data.length ; i++){ %>
             <tr>
                 <td>
                     <% var date = new Date(data[i].UpdateDate*1000); %>
@@ -114,7 +114,7 @@
                 </td>
                 <td>
                     <% if (data[i].TypeId == 0x24 || data[i].TypeId == 0x2C) { %>
-                        <%= (data[i].Info2 << 8) + data[i].Info3 %>                
+                        <%= (data[i].Info2 << 8) + data[i].Info3 %>
                     <% } else { %>
                         <%= data[i].Info3 %>
                     <% } %>

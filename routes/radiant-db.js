@@ -67,7 +67,7 @@ const SUBCMD_SCHE_RES             = 0x0C;
 
 const SUBCMD_PAIR                 = 0xA3;
 const SUBCMD_GET_DATA             = 0xA5;
-const SUBCMD_PAIR_STOP            = 0x00
+const SUBCMD_PAIR_STOP            = 0x00;
 const SUBCMD_PAIR_START           = 0x01;
 const SUBCMD_UNPAIR_ALL_START     = 0x02;
 
@@ -121,6 +121,26 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
     return buffer;
 }
 
+function insertTable(table, insertsql) {
+    var sql = "INSERT INTO ? SET ?";
+    mysqlQuery(sql, [table, insertsql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+        }
+    });
+    return;
+}
+
+function updateTable(table, insertsql, updatesql) {
+    var sql = "INSERT INTO ? SET ? ON DUPLICATE KEY UPDATE ? ";
+    mysqlQuery(sql, [table, insertsql, updatesql], function (err, result) {
+        if (err) {
+            console.log('[INSERT ERROR] - ', err.message);
+        }
+    });
+    return;
+}
+
 function updateDevice(userId, buffer) {
     var insertsql = {
         UserId: userId,
@@ -136,12 +156,7 @@ function updateDevice(userId, buffer) {
         Info3: buffer[3],
         TypeId: buffer[4]
     };
-    var sql = "INSERT INTO DeviceTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);           
-        }
-    });
+    updateTable("DeviceTbl", insertsql, updatesql);
     return;
 }
 
@@ -156,12 +171,7 @@ function updateDeviceHistory(userId, sourceAddr, buffer) {
         SourceAddress: sourceAddr,
         UpdateDate: Date.now() / 1000
     };
-    sql = "INSERT INTO DeviceHistoryTbl SET ?";
-    mysqlQuery(sql, insertsql, function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);           
-        }
-    });
+    insertTable("DeviceHistoryTbl", insertsql);
     return;
 }
 
@@ -171,13 +181,7 @@ function updateGroup(userId, groupId, deviceAddr) {
         Address: deviceAddr,
         GroupId: groupId
     };
-    var sql = "INSERT INTO GroupTbl SET ?";
-    mysqlQuery(sql, [insertsql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    insertTable("GroupTbl", insertsql);
     return;
 }
 
@@ -207,13 +211,7 @@ function updateScene(userId, sceneId, deviceAddr, scenePage) {
     var updatesql = {
         ScenePage: scenePage
     };
-    var sql = "INSERT INTO SceneTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    updateTable("SceneTbl", insertsql, updatesql);
     return;
 }
 
@@ -251,13 +249,7 @@ function updateSceneInfo(userId, sceneId, deviceAddr, sceneInfo) {
         RgbB: sceneInfo[3],
         Ct: sceneInfo[4]
     };
-    var sql = "INSERT INTO SceneTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    updateTable("SceneTbl", insertsql, updatesql);
     return;
 }
 
@@ -294,13 +286,7 @@ function updateSchedule(userId, scheId, deviceAddr, scheinfo) {
         Second: scheinfo[5],
         SceneId: scheinfo[6]
     };
-    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    updateTable("ScheduleTbl", insertsql, updatesql);
     return;
 }
 
@@ -314,13 +300,7 @@ function updateSchedulePage(userId, scheId, deviceAddr, schepage) {
     var updatesql = {
         SchedulePage: schepage
     };
-    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    updateTable("ScheduleTbl", insertsql, updatesql);
     return;
 }
 
@@ -342,16 +322,10 @@ function enableSchedule(userId, scheId, deviceAddr, enable) {
         ScheduleId: scheId,
         Enable: enable
     };
-    var updatesql = {        
+    var updatesql = {
         Enable: enable
     };
-    var sql = "INSERT INTO ScheduleTbl SET ? ON DUPLICATE KEY UPDATE ? ";
-    mysqlQuery(sql, [insertsql, updatesql], function (err, result) {
-        if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
-            return;
-        }
-    });
+    updateTable("ScheduleTbl", insertsql, updatesql);
     return;
 }
 
@@ -392,7 +366,7 @@ function response(sqlService, userId, rx) {
             break;
         case CMD_GROUP_RES:
             var groupList = [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18], rx[19]];
-            changeGroup(userId, groupList, sourceAddr[0]);                     
+            changeGroup(userId, groupList, sourceAddr[0]);
             break;
         case CMD_SCENE_INFO_RES:
             var scenepage = rx[19];
@@ -400,7 +374,7 @@ function response(sqlService, userId, rx) {
                 var sceneList =  [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
                 changeScene(userId, sceneList, sourceAddr[0], scenepage);
             } else {
-                var sceneId =  rx[10];            
+                var sceneId =  rx[10];
                 var sceneInfo = [rx[11], rx[12], rx[13], rx[14], rx[15]];
                 updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
             }     
@@ -411,8 +385,8 @@ function response(sqlService, userId, rx) {
                 var scheList = [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
                 changeSchedule(userId, scheList, sourceAddr[0], schepage);
             } else {
-                var scheflag = rx[10]
-                var scheId =  rx[11];            
+                var scheflag = rx[10];
+                var scheId =  rx[11];
                 var scheinfo = [rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18]];
                 updateSchedule(userId, scheId, sourceAddr[0], scheinfo);
             }

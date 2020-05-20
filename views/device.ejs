@@ -121,7 +121,7 @@
             <th>參數3</th>
             <th>參數3說明</th>
         </tr>
-        <% for ( var i = 0 ; i < data.length ; i++) { %>
+        <% for (var i = 0 ; i < data.length ; i++) { %>
         <tr>
             <td>
                 <%= linePerPage*index+(i+1) %>
@@ -174,7 +174,7 @@
             </td>
             <td>
                 <input type="button" name="history" value="紀錄" class="btn"
-                    onclick="History('<%= data[i].Address %>','<%= data[i].UserId %>');" />                
+                    onclick="History('<%= data[i].Address %>','<%= data[i].UserId %>');" />
                 <input type="button" name="edit" value="修改" class="btn" 
                     onclick="Edit('<%= data[i].Address %>','<%= data[i].UserId %>');" />
             </td>

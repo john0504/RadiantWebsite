@@ -101,7 +101,7 @@
             <th>場景編號</th>
             <th>狀態</th>
         </tr>
-        <% for ( var i = 0 ; i < data.length ; i++){ %>
+        <% for (var i = 0 ; i < data.length ; i++){ %>
         <tr>
             <td>
                 <%= linePerPage*index+(i+1) %>
@@ -134,15 +134,14 @@
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
                     <%= (data[i].Month < 10 ? '0' : '') + data[i].Month + '-' + 
-                    (data[i].Day < 10 ? 0 : '') + data[i].Day %>                    
+                    (data[i].Day < 10 ? 0 : '') + data[i].Day %>
                     <%= (data[i].Hour < 10 ? '0' : '') + data[i].Hour + ':' +
                     (data[i].Minute < 10 ? '0' : '') + data[i].Minute + ':' +
                     (data[i].Second < 10 ? '0' : '') + data[i].Second %>
-                    
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
                     每週
                     <% if ((data[i].Day & 0x01) == 1) { %>日<% } %>
-                    <% if (((data[i].Day >> 1) & 0x01) == 1) { %>一<% } %>                        
+                    <% if (((data[i].Day >> 1) & 0x01) == 1) { %>一<% } %>
                     <% if (((data[i].Day >> 2) & 0x01) == 1) { %>二<% } %>
                     <% if (((data[i].Day >> 3) & 0x01) == 1) { %>三<% } %>
                     <% if (((data[i].Day >> 4) & 0x01) == 1) { %>四<% } %>
