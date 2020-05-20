@@ -122,7 +122,7 @@ function getBuffer(sourceAddr, targetAddr, cmd) {
 }
 
 function insertTable(table, insertsql) {
-    var sql = "INSERT INTO ? SET ?";
+    var sql = `INSERT INTO ${table} SET ?`;
     mysqlQuery(sql, [table, insertsql], function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);
@@ -132,7 +132,7 @@ function insertTable(table, insertsql) {
 }
 
 function updateTable(table, insertsql, updatesql) {
-    var sql = "INSERT INTO ? SET ? ON DUPLICATE KEY UPDATE ? ";
+    var sql = `INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ? `;
     mysqlQuery(sql, [table, insertsql, updatesql], function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);
