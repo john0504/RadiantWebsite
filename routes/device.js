@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) {
     }
     var totalPage = 0;
     var mysqlQuery = req.mysqlQuery;
-    var sql = 'SELECT count(*) as count from DeviceTbl'
+    var sql = 'SELECT count(*) as count from DeviceTbl';
     if (req.session.SuperUser != 1) {
         sql += (` WHERE UserId = ${req.session.UserId}`);
     }
@@ -89,14 +89,14 @@ router.get('/search', function (req, res, next) {
         mysqlQuery(sql, function (err, devices) {
             if (err) {
                 console.log(err);
-            }
+            }/*
             devices.forEach(device => {
                 if (device.UpdateDate >= Date.now() / 1000 - 2 * 60) {
                     device.Status = 1;
                 } else {
                     device.Status = 0;
                 }
-            });
+            });*/
             res.render('device', {
                 title: 'Device Information', data: devices, index: index, SearchAccount: SearchAccount, 
                 totalPage: totalPage, linePerPage: linePerPage, order: order
@@ -111,7 +111,7 @@ router.get('/deviceHistory', function (req, res, next) {
         return;
     }
     var Address = req.query.Address;
-    var UserId = req.query.UserId
+    var UserId = req.query.UserId;
     var index = parseInt(req.query.index) ? parseInt(req.query.index) : 0;
     if (index < 0) {
         index = 0;

@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
     var sql = 'SELECT count(*) as count from SceneTbl a left join UserTbl b on a.UserId = b.Id';
     if (req.session.SuperUser != 1) {
         var UserId = req.session.UserId;
-        sql += ` WHERE a.UserId = '${UserId}'`
+        sql += ` WHERE a.UserId = '${UserId}'`;
     }
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
@@ -35,7 +35,7 @@ router.get('/', function (req, res, next) {
         sql = 'SELECT a.*,b.Account from SceneTbl a left join UserTbl b on a.UserId = b.Id';
         if (req.session.SuperUser != 1) {      
             var UserId = req.session.UserId;
-            sql += ` WHERE a.UserId = '${UserId}'`
+            sql += ` WHERE a.UserId = '${UserId}'`;
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -71,7 +71,7 @@ router.get('/search', function (req, res, next) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
         sql = `SELECT a.*,b.Account from SceneTbl a left join UserTbl b on a.UserId = b.Id \
-                WHERE b.Account LIKE '%${SearchAccount}%'`
+                WHERE b.Account LIKE '%${SearchAccount}%'`;
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
             if (err) {

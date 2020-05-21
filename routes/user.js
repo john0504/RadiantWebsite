@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
     var sql = 'SELECT count(*) as count from UserTbl';
     if (req.session.SuperUser != 1) {
         var UserId = req.session.UserId;
-        sql += ` WHERE Id = '${UserId}'`
+        sql += ` WHERE Id = '${UserId}'`;
     }
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
@@ -36,7 +36,7 @@ router.get('/', function (req, res, next) {
             sql = 'SELECT * FROM UserTbl ';
         } else {
             var UserId = req.session.UserId;
-            sql = `SELECT * FROM UserTbl WHERE Id = '${UserId}'`
+            sql = `SELECT * FROM UserTbl WHERE Id = '${UserId}'`;
         }
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
@@ -69,7 +69,7 @@ router.get('/search', function (req, res, next) {
     mysqlQuery(sql, function (err, acc) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
-        sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`
+        sql = `SELECT * FROM UserTbl WHERE Account LIKE '%${SearchAccount}%'`;
         sql += (` limit ${index * linePerPage},${linePerPage}`);
         mysqlQuery(sql, function (err, accounts) {
             if (err) {
