@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
         var total = acc[0].count;
         totalPage = Math.ceil(total / linePerPage);
         sql = 'SELECT a.*,b.Account from SceneTbl a left join UserTbl b on a.UserId = b.Id';
-        if (req.session.SuperUser != 1) {      
+        if (req.session.SuperUser != 1) {
             var UserId = req.session.UserId;
             sql += ` WHERE a.UserId = '${UserId}'`;
         }
@@ -62,7 +62,7 @@ router.get('/search', function (req, res, next) {
     var SearchAccount = req.query.SearchAccount;
     var mysqlQuery = req.mysqlQuery;
 
-    if (req.session.SuperUser != 1) {        
+    if (req.session.SuperUser != 1) {
         return;
     }
     var sql = `SELECT count(*) as count from SceneTbl a left join UserTbl b on a.UserId = b.Id \

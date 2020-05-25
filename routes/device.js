@@ -49,7 +49,7 @@ router.get('/', function (req, res, next) {
                 title: 'Device Information', data: devices, index: index, SearchAccount: SearchAccount,
                 totalPage: totalPage, linePerPage: linePerPage, order: order
             });
-        });     
+        });
     });
 });
 
@@ -58,7 +58,7 @@ router.get('/search', function (req, res, next) {
         return;
     }    
     if (req.session.SuperUser != 1) {
-        return;    
+        return;
     }
     var index = parseInt(req.query.index) ? parseInt(req.query.index) : 0;
     if (index < 0) {
@@ -70,14 +70,14 @@ router.get('/search', function (req, res, next) {
     var mysqlQuery = req.mysqlQuery;
 
     var sql = 'SELECT count(*) as count from DeviceTbl a left join UserTbl b on a.UserId = b.Id';
-    if (SearchAccount && SearchAccount != "") {   
+    if (SearchAccount && SearchAccount != "") {
         sql += (` WHERE b.Account LIKE '%${SearchAccount}%'`);
     }
     mysqlQuery(sql, function (err, dev) {
         var total = dev[0].count;
         totalPage = Math.ceil(total / linePerPage);
         sql = 'SELECT a.*, b.Account, c.Name, c.TextInfo2, c.TextInfo3 FROM DeviceTbl a left join UserTbl b on a.UserId = b.Id \
-                left join DeviceTypeTbl c on a.TypeId = c.Id';   
+                left join DeviceTypeTbl c on a.TypeId = c.Id';
         if (SearchAccount && SearchAccount != "") {   
             sql += (` WHERE b.Account LIKE '%${SearchAccount}%'`);
         }

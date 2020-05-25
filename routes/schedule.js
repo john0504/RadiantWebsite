@@ -62,7 +62,7 @@ router.get('/search', function (req, res, next) {
     var SearchAccount = req.query.SearchAccount;
     var mysqlQuery = req.mysqlQuery;
 
-    if (req.session.SuperUser != 1) {        
+    if (req.session.SuperUser != 1) {
         return;
     }
     var sql = `SELECT count(*) as count from ScheduleTbl a left join UserTbl b on a.UserId = b.Id \

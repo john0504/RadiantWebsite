@@ -40,7 +40,7 @@
     </table>
     <h1>裝置 - 歷史紀錄</h1>
     <% if (!data || data.length == 0) { %>
-        查無紀錄        
+        查無紀錄
     <% } else { %>
         <h1><%= data[0].Account %> - <%= data[0].Address %></h1>
         <% if(index > 0) { %>
@@ -98,7 +98,7 @@
                             禁用
                         <% } else { %>
                             啟用
-                        <% } %>                    
+                        <% } %>
                     <% } else if (data[i].TypeId == 0x2C) { %>
                         <% if ((data[i].Info2 << 8) + data[i].Info3 == 0x0B00) { %>
                             禁用
