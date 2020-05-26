@@ -374,7 +374,7 @@ function response(sqlService, userId, rx) {
                 var sceneList =  [rx[10], rx[11], rx[12], rx[13], rx[14], rx[15], rx[16], rx[17]];
                 changeScene(userId, sceneList, sourceAddr[0], scenepage);
             } else {
-                var sceneId =  rx[10];
+                var sceneId = rx[10];
                 var sceneInfo = [rx[11], rx[12], rx[13], rx[14], rx[15]];
                 updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
             }     
@@ -386,7 +386,7 @@ function response(sqlService, userId, rx) {
                 changeSchedule(userId, scheList, sourceAddr[0], schepage);
             } else {
                 var scheflag = rx[10];
-                var scheId =  rx[11];
+                var scheId = rx[11];
                 var scheinfo = [rx[12], rx[13], rx[14], rx[15], rx[16], rx[17], rx[18]];
                 updateSchedule(userId, scheId, sourceAddr[0], scheinfo);
             }
@@ -402,11 +402,11 @@ function response(sqlService, userId, rx) {
         case CMD_CUSTOM1:
             var flag = [rx[10], rx[11]];
             if (flag[0] == 0x00 && flag[1] == SUBCMD_ADD_SCENE_RES) {
-                var sceneId =  rx[12];
+                var sceneId = rx[12];
                 var sceneInfo = [rx[13], rx[14], rx[15], rx[16], rx[17]];
                 updateSceneInfo(userId, sceneId, sourceAddr[0], sceneInfo);
             } else if (flag[0] == 0x00 && flag[1] == SUBCMD_DEL_SCENE_RES) {
-                var sceneId =  rx[12];
+                var sceneId = rx[12];
                 deleteScene(userId, sceneId, sourceAddr[0]);
             } else if (flag[0] == 0x00 && flag[1] == SUBCMD_SCHE_RES) {
                 var scheflag = rx[12]; 

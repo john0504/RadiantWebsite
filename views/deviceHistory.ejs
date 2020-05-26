@@ -43,14 +43,14 @@
         查無紀錄
     <% } else { %>
         <h1><%= data[0].Account %> - <%= data[0].Address %></h1>
-        <% if(index > 0) { %>
+        <% if (index > 0) { %>
             <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } else { %>
             <input type="button" name="past" value="上一頁" class="btn" disabled="true"
             onclick="Past('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } %>
         <%= index+1  %>
-        <% if(index < totalPage - 1) { %>
+        <% if (index < totalPage - 1) { %>
             <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } else { %>
             <input type="button" name="next" value="下一頁" class="btn" disabled="true"
@@ -125,14 +125,14 @@
             </tr>
             <% } %>
         </table>
-        <% if(index > 0) { %>
+        <% if (index > 0) { %>
             <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } else { %>
             <input type="button" name="past" value="上一頁" class="btn" disabled="true"
             onclick="Past('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } %>
-        <%= index+1  %>
-        <% if(index < totalPage - 1) { %>
+        <%= index+1 %>
+        <% if (index < totalPage - 1) { %>
             <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= Address %>','<%= UserId %>');" />
         <% } else { %>
             <input type="button" name="next" value="下一頁" class="btn" disabled="true"

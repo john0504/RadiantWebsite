@@ -175,7 +175,7 @@ router.get('/off-light', function (req, res) {
 router.get('/set-lum', function (req, res) {
     var sourceaddr = [0x00, 0x00];
     var targetaddr = [0x00, 0x00];
-    var lumvalue = 0x0A; //  0 ~ 100
+    var lumvalue = 0x0A; // 0 ~ 100
 
     var buffer = getBuffer(sourceaddr, targetaddr, CMD_LUM_MUSIC);
     buffer[BUFFER_PAR] = lumvalue;

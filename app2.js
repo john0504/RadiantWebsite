@@ -91,7 +91,7 @@ client.on('message', function (topic, msg) {
         } catch (e) {
             console.log(`JSON parse error:${msg}`);
             return;
-        }        
+        }
     } else if (action == 'device') {
         console.log(`Get a Device Message!`);
         try {
@@ -99,7 +99,7 @@ client.on('message', function (topic, msg) {
         } catch (e) {
             console.log(`JSON parse error:${msg}`);
             return;
-        }    
+        }
     }
 });
 

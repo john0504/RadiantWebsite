@@ -74,14 +74,14 @@
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
     <% } %>
     <br>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
         onclick="Past('<%= index %>','<%= SearchAccount %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1 %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
         onclick="Next('<%= index %>','<%= SearchAccount %>','<%= order %>');" />
     <% } else { %>
@@ -91,7 +91,7 @@
         <tr>
             <th>編號</th>            
             <th>所有者
-                <% if(order == "b.Account asc") { %>
+                <% if (order == "b.Account asc") { %>
                 <input type="button" name="order" value="▼"
                     onclick="Order('<%= index %>','<%= SearchAccount %>','b.Account desc');" />
                 <% } else if (order == "b.Account desc"){ %>
@@ -103,7 +103,7 @@
                 <% } %>
             </th>
             <th>位址
-                <% if(order == "a.Address asc") { %>
+                <% if (order == "a.Address asc") { %>
                 <input type="button" name="order" value="▼"
                     onclick="Order('<%= index %>','<%= SearchAccount %>','a.Address desc');" />
                 <% } else if (order == "a.Address desc"){ %>
@@ -181,14 +181,14 @@
         </tr>
         <% } %>
     </table>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn"
         onclick="Past('<%= index %>','<%= SearchAccount %>','<%= order %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1 %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn"
         onclick="Next('<%= index %>','<%= SearchAccount %>','<%= order %>');" />
     <% } else { %>

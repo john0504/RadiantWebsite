@@ -78,13 +78,13 @@
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
     <% } %>
     <br>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1 %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
@@ -126,9 +126,9 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 4) & 0x07) == 0) { %>
-                    單次
+                單次
                 <% } else if (((data[i].ScheType >> 4) & 0x07) == 1) { %>
-                    重複
+                重複
                 <% } %> 
             </td>
             <td>
@@ -158,9 +158,9 @@
             </td>
             <td>
                 <% if (((data[i].ScheType >> 7) & 0x01) == 1) { %>
-                    啟用
+                啟用
                 <% } else { %>
-                    禁用
+                禁用
                 <% } %> 
             </td>
             <td>
@@ -174,13 +174,13 @@
         </tr>
         <% } %>
     </table>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1 %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />

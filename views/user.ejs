@@ -78,13 +78,13 @@
     <input type="button" name="search" value="搜尋" class="btn" onclick="Search();" />
     <% } %>
     <br>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1  %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
@@ -103,7 +103,7 @@
                 <%= linePerPage*index+(i+1) %>
             </td>
             <td>
-                <%= data[i].Account  %>
+                <%= data[i].Account %>
             </td>
             <td>
                 <% var date = new Date(data[i].CreateDate * 1000); %>
@@ -112,39 +112,39 @@
                     + date.getDate() + " "
                     + date.getHours() + ":"
                     + date.getMinutes() + ":"
-                    + date.getSeconds()  %>
+                    + date.getSeconds() %>
             </td>
             <td>
-                <% if(data[i].Enable > 0) { %>
+                <% if (data[i].Enable > 0) { %>
                 啟用
                 <% } else { %>
                 禁用
                 <% } %>
             </td>
             <td>
-                <% if(data[i].SuperUser > 0) { %>
+                <% if (data[i].SuperUser > 0) { %>
                 啟用
                 <% } else { %>
                 
                 <% } %>
             </td>
             <td>
-                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].Id  %>');" />
+                <input type="button" name="edit" value="修改" class="btn" onclick="Edit('<%= data[i].Id %>');" />
                 <% if (locals.SuperUser == 1) { %>
                 <input type="button" name="delete" value="刪除" class="btn"
-                    onclick="Delete('<%= data[i].Id  %>');" />
+                    onclick="Delete('<%= data[i].Id %>');" />
                 <% } %>
             </td>
         </tr>
         <% } %>
     </table>
-    <% if(index > 0) { %>
+    <% if (index > 0) { %>
     <input type="button" name="past" value="上一頁" class="btn" onclick="Past('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="past" value="上一頁" class="btn" disabled="true" />
     <% } %>
-    <%= index+1  %>/<%= totalPage  %>
-    <% if(index < totalPage - 1) { %>
+    <%= index+1 %>/<%= totalPage %>
+    <% if (index < totalPage - 1) { %>
     <input type="button" name="next" value="下一頁" class="btn" onclick="Next('<%= index %>','<%= SearchAccount %>');" />
     <% } else { %>
     <input type="button" name="next" value="下一頁" class="btn" disabled="true" />
